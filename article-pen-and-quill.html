@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Between the Pen and the Quill Maqam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --gold:       #c9a96e;
+  --gold-light: #e8d5a3;
+  --gold-dim:   #7a6845;
+  --gold-faint: #3a2f1a;
+  --ink:        #0a0810;
+  --ink2:       #0f0d16;
+  --ink3:       #151220;
+  --border:     rgba(201,169,110,0.12);
+  --border2:    rgba(201,169,110,0.22);
+  --text:       #cfc5ae;
+  --text-dim:   #7a7060;
+  --text-muted: #3d3830;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.75;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.5;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(10,8,16,0.88);border-bottom:0.5px solid var(--border);backdrop-filter:blur(20px);}
+.nav-logo{font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--gold);letter-spacing:8px;text-decoration:none;}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:3px;color:var(--text-dim);text-decoration:none;text-transform:uppercase;transition:color .3s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-cta{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;color:var(--gold);border:0.5px solid var(--gold-dim);padding:7px 20px;text-decoration:none;text-transform:uppercase;transition:all .3s;}
+.nav-cta:hover{background:var(--gold);color:var(--ink);}
+
+/* ── ARTICLE HERO ── */
+.article-hero{
+  position:relative;
+  min-height:80vh;
+  display:flex;flex-direction:column;
+  justify-content:flex-end;
+  padding:120px 52px 72px;
+  border-bottom:0.5px solid var(--border);
+  overflow:hidden;
+}
+
+/* Background portrait collage two figures fading in */
+.hero-bg{
+  position:absolute;inset:0;
+  display:flex;
+  pointer-events:none;
+}
+.hero-bg-left{
+  flex:1;
+  background:linear-gradient(to right, rgba(10,8,16,0.1), rgba(10,8,16,0.7));
+  position:relative;overflow:hidden;
+}
+.hero-bg-left img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:top center;
+  filter:grayscale(100%) contrast(1.1) brightness(0.45);
+  mix-blend-mode:luminosity;
+}
+.hero-bg-left::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to right, rgba(10,8,16,0.2), rgba(10,8,16,0.85));
+}
+.hero-bg-right{
+  flex:1;
+  position:relative;overflow:hidden;
+}
+.hero-bg-right img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:top center;
+  filter:grayscale(100%) contrast(1.1) brightness(0.45);
+  mix-blend-mode:luminosity;
+}
+.hero-bg-right::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to left, rgba(10,8,16,0.2), rgba(10,8,16,0.85));
+}
+/* Gold sepia tint over everything */
+.hero-bg::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(90,60,15,0.18);
+  mix-blend-mode:color;
+  pointer-events:none;
+}
+/* Deep gradient from bottom so text is readable */
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,
+    rgba(10,8,16,1) 0%,
+    rgba(10,8,16,0.7) 40%,
+    rgba(10,8,16,0.1) 100%);
+  pointer-events:none;
+}
+
+.hero-content{position:relative;z-index:2;max-width:820px;}
+
+.hero-breadcrumb{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:28px;
+}
+.hero-breadcrumb a{
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;
+  color:var(--text-muted);text-decoration:none;text-transform:uppercase;
+  transition:color .3s;
+}
+.hero-breadcrumb a:hover{color:var(--gold);}
+.hero-breadcrumb span{color:var(--text-muted);font-size:10px;}
+
+.hero-category{
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;
+  color:var(--gold);text-transform:uppercase;
+  margin-bottom:20px;display:block;
+}
+
+.hero-title{
+  font-family:'Cinzel',serif;font-size:42px;font-weight:700;
+  color:var(--gold-light);line-height:1.15;
+  margin-bottom:12px;
+}
+
+.hero-subtitle{
+  font-family:'Crimson Pro',serif;font-style:italic;
+  font-size:20px;color:var(--text-dim);
+  margin-bottom:32px;max-width:640px;
+}
+
+.hero-meta{
+  display:flex;align-items:center;gap:20px;
+  flex-wrap:wrap;
+}
+.meta-author{
+  display:flex;align-items:center;gap:12px;
+}
+.meta-rule{width:24px;height:0.5px;background:var(--gold-dim);}
+.meta-name{
+  font-family:'Crimson Pro',serif;font-style:italic;
+  font-size:16px;color:var(--text-dim);
+}
+.meta-dot{width:3px;height:3px;background:var(--text-muted);border-radius:50%;}
+.meta-info{
+  font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:2px;
+  color:var(--text-muted);text-transform:uppercase;
+}
+
+/* ── ARTICLE BODY ── */
+.article-wrap{
+  max-width:1100px;margin:0 auto;
+  padding:80px 52px;
+  display:grid;
+  grid-template-columns:1fr 320px;
+  gap:80px;
+  align-items:start;
+}
+
+/* Main text column */
+.article-body{}
+
+.article-body p{
+  font-family:'Crimson Pro',serif;
+  font-size:20px;color:var(--text-dim);
+  line-height:1.9;margin-bottom:28px;
+}
+.article-body p strong{color:var(--text);font-weight:600;}
+.article-body p em{color:var(--gold-dim);font-style:italic;}
+
+/* Drop cap on first paragraph */
+.article-body .drop-cap::first-letter{
+  font-family:'Cinzel',serif;
+  font-size:72px;font-weight:700;
+  color:var(--gold);
+  float:left;line-height:0.75;
+  margin:8px 12px 0 0;
+}
+
+/* Section headings */
+.article-body h2{
+  font-family:'Cinzel',serif;font-size:18px;font-weight:600;
+  color:var(--gold-light);
+  margin:52px 0 20px;
+  padding-bottom:12px;
+  border-bottom:0.5px solid var(--border);
+  letter-spacing:1px;
+}
+
+/* Pull quote inside article */
+.inline-quote{
+  border-left:2px solid var(--gold-dim);
+  padding:24px 32px;
+  margin:40px 0;
+  background:var(--ink2);
+  position:relative;
+}
+.inline-quote::before{
+  content:'"';
+  font-family:'Amiri',serif;font-size:60px;
+  color:var(--gold-faint);line-height:0.5;
+  position:absolute;top:20px;left:16px;
+}
+.inline-quote p{
+  font-family:'Crimson Pro',serif;font-style:italic;
+  font-size:21px;color:var(--text);
+  line-height:1.6;margin:0 0 12px 32px !important;
+}
+.inline-quote .q-source{
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;
+  color:var(--gold-dim);text-transform:uppercase;
+  margin:0 0 0 32px !important;
+}
+
+/* Arabic verse block */
+.arabic-verse{
+  text-align:center;
+  padding:32px 24px;
+  margin:40px 0;
+  border-top:0.5px solid var(--border);
+  border-bottom:0.5px solid var(--border);
+}
+.arabic-verse p{
+  font-family:'Amiri',serif;font-size:26px;
+  color:var(--gold-dim);direction:rtl;
+  line-height:1.8;margin-bottom:12px !important;
+}
+.arabic-verse .translation{
+  font-family:'Crimson Pro',serif;font-style:italic;
+  font-size:16px;color:var(--text-muted);
+  direction:ltr;margin:0 !important;
+}
+
+/* Dialogue section */
+.dialogue{
+  background:var(--ink2);
+  border:0.5px solid var(--border);
+  padding:36px 40px;
+  margin:40px 0;
+}
+.dialogue-title{
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;
+  color:var(--gold-dim);text-transform:uppercase;
+  margin-bottom:24px;
+  display:flex;align-items:center;gap:12px;
+}
+.dialogue-title::after{content:'';flex:1;height:0.5px;background:var(--border);}
+.dialogue-line{
+  display:flex;gap:16px;
+  margin-bottom:20px;padding-bottom:20px;
+  border-bottom:0.5px solid var(--border);
+}
+.dialogue-line:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.dialogue-speaker{
+  font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;
+  color:var(--gold);text-transform:uppercase;
+  min-width:120px;padding-top:4px;
+  flex-shrink:0;
+}
+.dialogue-text{
+  font-family:'Crimson Pro',serif;font-style:italic;
+  font-size:18px;color:var(--text);line-height:1.65;
+}
+
+/* Numbered list */
+.article-body ol{
+  list-style:none;counter-reset:article-counter;
+  margin:0 0 28px;
+}
+.article-body ol li{
+  counter-increment:article-counter;
+  display:flex;gap:16px;
+  margin-bottom:24px;
+  font-family:'Crimson Pro',serif;font-size:19px;
+  color:var(--text-dim);line-height:1.8;
+}
+.article-body ol li::before{
+  content:counter(article-counter);
+  font-family:'Cinzel',serif;font-size:11px;
+  color:var(--gold-dim);
+  min-width:24px;padding-top:4px;
+  flex-shrink:0;
+}
+.article-body ol li strong{color:var(--text);}
+
+/* Closing line */
+.closing-line{
+  text-align:center;
+  padding:40px 0 0;
+  border-top:0.5px solid var(--border);
+  margin-top:48px;
+}
+.closing-line p{
+  font-family:'Amiri',serif;font-size:22px;
+  color:var(--gold-dim);font-style:italic;
+  margin:0 !important;
+}
+
+/* ── SIDEBAR ── */
+.article-sidebar{
+  position:sticky;top:80px;
+}
+
+.sidebar-section{
+  margin-bottom:40px;
+  padding-bottom:40px;
+  border-bottom:0.5px solid var(--border);
+}
+.sidebar-section:last-child{border-bottom:none;}
+
+.sidebar-label{
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;
+  color:var(--gold-dim);text-transform:uppercase;
+  margin-bottom:16px;display:block;
+}
+
+/* Author card */
+.author-card{display:flex;gap:16px;align-items:flex-start;}
+.author-img{
+  width:56px;height:56px;border-radius:0;
+  border:0.5px solid var(--border2);
+  background:var(--ink3);flex-shrink:0;
+  overflow:hidden;
+}
+.author-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(100%);}
+.author-info .a-name{
+  font-family:'Cinzel',serif;font-size:12px;font-weight:600;
+  color:var(--gold-light);margin-bottom:4px;display:block;
+}
+.author-info .a-bio{
+  font-family:'Crimson Pro',serif;font-size:14px;
+  color:var(--text-muted);line-height:1.6;
+}
+
+/* Related articles */
+.related-item{
+  margin-bottom:20px;padding-bottom:20px;
+  border-bottom:0.5px solid var(--border);
+  cursor:pointer;
+}
+.related-item:last-child{border-bottom:none;margin-bottom:0;}
+.related-item:hover .r-title{color:var(--gold-light);}
+.r-cat{font-family:'Cinzel',serif;font-size:7px;letter-spacing:3px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:6px;display:block;}
+.r-title{font-family:'Cinzel',serif;font-size:13px;font-weight:600;color:var(--text);line-height:1.4;transition:color .3s;margin-bottom:4px;display:block;}
+.r-min{font-family:'Crimson Pro',serif;font-style:italic;font-size:12px;color:var(--text-muted);}
+
+/* Share */
+.share-links{display:flex;flex-direction:column;gap:10px;}
+.share-btn{
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;
+  color:var(--text-muted);border:0.5px solid var(--border);
+  padding:10px 16px;text-decoration:none;text-transform:uppercase;
+  transition:all .3s;text-align:center;
+}
+.share-btn:hover{border-color:var(--gold-dim);color:var(--gold);}
+
+/* FOOTER */
+footer{background:var(--ink);border-top:0.5px solid var(--border);padding:64px 52px 36px;position:relative;z-index:1;}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:56px;}
+.foot-logo-en{font-family:'Cinzel',serif;font-size:20px;font-weight:700;color:var(--gold);letter-spacing:8px;margin-bottom:4px;}
+.foot-logo-ar{font-family:'Amiri',serif;font-size:22px;color:var(--gold-dim);direction:rtl;margin-bottom:16px;}
+.foot-about{font-family:'Crimson Pro',serif;font-size:15px;color:var(--text-muted);line-height:1.75;max-width:260px;}
+.foot-col h4{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:20px;padding-bottom:10px;border-bottom:0.5px solid var(--border);}
+.foot-col ul{list-style:none;}
+.foot-col li{margin-bottom:10px;}
+.foot-col a{font-family:'Crimson Pro',serif;font-size:15px;color:var(--text-muted);text-decoration:none;transition:color .3s;}
+.foot-col a:hover{color:var(--gold);}
+.foot-bottom{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;border-top:0.5px solid var(--border);padding-top:24px;}
+.foot-bottom p{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;}
+.foot-bottom-center{display:flex;align-items:center;gap:12px;}
+.foot-bottom-center span{font-size:8px;color:var(--gold-faint);}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">MAQAM</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="literature.html">Literature</a></li>
+    <li><a href="philosophy.html">Philosophy</a></li>
+    <li><a href="history.html">History</a></li>
+    <li><a href="arts.html">Arts</a></li>
+    <li><a href="music.html">Music</a></li>
+  </ul>
+  <a href="write.html" class="nav-cta">Write With Us</a>
+</nav>
+
+<!-- HERO -->
+<div class="article-hero">
+  <div class="hero-bg">
+    <div class="hero-bg-left">
+      <img src="mutanabi.jpg.webp" alt="Al-Mutanabbi"/>
+    </div>
+    <div class="hero-bg-right">
+      <img src="shakespeare.jpg" alt="Shakespeare"/>
+    </div>
+  </div>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-breadcrumb">
+      <a href="index.html">Home</a>
+      <span>›</span>
+      <a href="philosophy.html">Philosophy</a>
+      <span>›</span>
+      <a href="#">Essay</a>
+    </div>
+    <span class="hero-category">◆ Philosophy · Issue I · Essay</span>
+    <h1 class="hero-title">Between the Pen and the Quill:<br/>Al-Mutanabbi Meets Shakespeare</h1>
+    <p class="hero-subtitle">If literature is a long conversation across centuries, then two of its greatest voices have been speaking to each other all along.</p>
+    <div class="hero-meta">
+      <div class="meta-author">
+        <div class="meta-rule"></div>
+        <span class="meta-name">Adib Khalifa Masri</span>
+      </div>
+      <span class="meta-dot"></span>
+      <span class="meta-info">18 min read</span>
+      <span class="meta-dot"></span>
+      <span class="meta-info">Issue I · 2025</span>
+    </div>
+  </div>
+</div>
+
+<!-- ARTICLE + SIDEBAR -->
+<div class="article-wrap">
+
+  <!-- MAIN BODY -->
+  <div class="article-body">
+
+    <p class="drop-cap">If literature is a long conversation across centuries, then it is entirely possible that two of its greatest voices Al-Mutanabbi and William Shakespeare have been speaking to each other all along. One wrote in the golden cadence of classical Arabic courts, the other in the restless pulse of Elizabethan England. Yet both carved humanity into language with such precision that their words still feel alive, still unfinished, still breathing. To imagine them "meeting" is not a historical claim. It is a literary necessity.</p>
+
+    <h2>The Voice of Glory and the Mirror of Man</h2>
+
+    <p>Al-Mutanabbi stands in Arabic literature like a figure carved from stone and pride. Born in Kufa in 915, he was a poet who did not merely write verse he issued declarations. His poetry is architecture: towering, precise, built to last. He wrote of honor, ambition, exile, and the crushing weight of greatness. His famous lines were not expressions of vanity they were a philosophy of self-assertion in a world of courts, rulers, and perpetual exile.</p>
+
+    <div class="arabic-verse">
+      <p>الخَيْلُ وَاللّيْلُ وَالبَيْداءُ تَعرِفُني<br/>وَالسّيفُ وَالرّمحُ والقرْطاسُ وَالقَلَمُ</p>
+      <p class="translation">"The desert knows me well, the night, the mounted men / The battle and the sword, the paper and the pen."</p>
+    </div>
+
+    <p>Notice what Al-Mutanabbi places side by side: the sword <em>and</em> the pen. Not as opposites as equals. This is a man who understood that language was not separate from power but <strong>the source of it</strong>. His courage was not only on the battlefield. He died, in 965, because he refused to flee from a man he had insulted in verse choosing to live up to his own words rather than contradict them with survival.</p>
+
+    <p>Shakespeare, meanwhile, writes from a different storm entirely. His world is made of doubt, masks, ambition, betrayal, and the terrifying fragility of human identity. Kings fall in his plays not because fate is cruel, but because human desire is irreducibly complicated. His characters are not heroes they are contradictions that have learned to speak. Hamlet cannot act. Macbeth cannot stop. Iago cannot love. And yet all of them are more alive than most people we will ever meet.</p>
+
+    <div class="inline-quote">
+      <p>What a piece of work is a man how noble in reason, how infinite in faculty... and yet, to me, what is this quintessence of dust?</p>
+      <p class="q-source">William Shakespeare · Hamlet, Act II</p>
+    </div>
+
+    <p>Where Al-Mutanabbi builds the self into myth, Shakespeare dismantles it into question. One declares. The other interrogates. And yet this is the extraordinary thing both are right. Because the self is both myth and question, both declaration and doubt, simultaneously.</p>
+
+    <h2>The Pen and the Quill</h2>
+
+    <p>The pen of Al-Mutanabbi is sharp like a sword. It cuts through humiliation and raises the individual into something permanent. His poetry often reads like a battle for dignity in a world of patrons, politics, and exile a world that constantly tried to diminish him. And constantly failed. His verse is the record of that failure.</p>
+
+    <p>Shakespeare's quill is softer in appearance but deeper in wound. It does not cut outward it cuts inward. It opens the fractures inside kings, lovers, fools, and ghosts, and holds a lamp to what it finds there. Where Al-Mutanabbi says <em>I am this</em>, Shakespeare asks <em>but are you certain?</em></p>
+
+    <p>Yet both instruments pen and quill are tools of the same essential power. One declares identity; the other interrogates it. And a civilization that loses either loses something irreplaceable: it loses either the courage to assert itself, or the wisdom to question what it has become.</p>
+
+    <h2>Shared Themes Across Time</h2>
+
+    <p>Despite the distance of language, civilization, and century, both poets orbit the same human core. They are drawn to the same fires:</p>
+
+    <ol>
+      <li><strong>Ambition and Power  </strong> Al-Mutanabbi glorifies ambition as the natural right of the great. Shakespeare shows ambition as a flame that illuminates and destroys Macbeth's tragedy being the clearest proof. Yet neither poet condemns ambition. Both understand it as the engine of human achievement, and the source of human ruin.</li>
+      <li><strong>Fate and Free Will  </strong> In Al-Mutanabbi's world, destiny is something to be confronted with pride and met with verse. In Shakespeare's world, fate arrives disguised as choice and only reveals itself in retrospect, when the damage is done. But neither denies its presence. Both feel the weight of something larger than the individual pressing down.</li>
+      <li><strong>The Self and Its Illusion  </strong> Both poets understand that identity is a construction. Al-Mutanabbi builds his with supreme confidence. Shakespeare tears his characters' apart with supreme compassion. But both know that the "self" is never simple, never finished, never fully known not even to the one who carries it.</li>
+    </ol>
+
+    <h2>If They Spoke Across the Table</h2>
+
+    <p>Imagine, for a moment, that the centuries collapsed. That these two figures one in the robes of a court poet from Aleppo, one in the doublet of an Elizabethan playwright sat across from each other in a room with no walls. What would they say?</p>
+
+    <div class="dialogue">
+      <p class="dialogue-title">An Imagined Conversation</p>
+      <div class="dialogue-line">
+        <span class="dialogue-speaker">Al-Mutanabbi</span>
+        <span class="dialogue-text">"I am my poetry, and my poetry is my eternity. Long after the courts have crumbled, these words will remain."</span>
+      </div>
+      <div class="dialogue-line">
+        <span class="dialogue-speaker">Shakespeare</span>
+        <span class="dialogue-text">"And yet eternity wears many faces, none of them certain. Even the immortal must ask: immortal in whose memory? And for how long?"</span>
+      </div>
+      <div class="dialogue-line">
+        <span class="dialogue-speaker">Al-Mutanabbi</span>
+        <span class="dialogue-text">"Glory is taken by those who dare to speak it first. The world does not give it yields to those who demand."</span>
+      </div>
+      <div class="dialogue-line">
+        <span class="dialogue-speaker">Shakespeare</span>
+        <span class="dialogue-text">"And those who speak too loudly often hear only their echo. The world yields then takes back twice what it gave."</span>
+      </div>
+      <div class="dialogue-line">
+        <span class="dialogue-speaker">Al-Mutanabbi</span>
+        <span class="dialogue-text">"Then we are in agreement: only language survives. Only the poem outlasts the king."</span>
+      </div>
+      <div class="dialogue-line">
+        <span class="dialogue-speaker">Shakespeare</span>
+        <span class="dialogue-text">"On that, my friend from Kufa, we are entirely in agreement."</span>
+      </div>
+    </div>
+
+    <p>Neither would "win" such an argument. What they would do is expand each other's universe Al-Mutanabbi loosening Shakespeare's grip on doubt, Shakespeare softening Al-Mutanabbi's certainty. Together they would occupy a space neither could reach alone.</p>
+
+    <h2>Why This Meeting Still Matters</h2>
+
+    <p>In a world of fragmented attention and accelerating noise, Al-Mutanabbi and Shakespeare remind us of something we keep forgetting: <strong>language is not decoration it is construction</strong>. It builds identity, memory, and civilization. It is the only thing that allows a person who died in 965 to speak to a person alive in 2025. It is the only bridge that crosses not just languages, but time itself.</p>
+
+    <p>To read Al-Mutanabbi is to understand the architecture of pride the kind of pride that is not vanity but <em>dignity</em>, the refusal to be made small. To read Shakespeare is to understand the anatomy of doubt the kind of doubt that is not weakness but <em>wisdom</em>, the willingness to remain uncertain in the face of great complexity.</p>
+
+    <p>Between them lies the full spectrum of what it means to be human. Between the declaration and the question. Between the sword and the mirror. Between the pen and the quill.</p>
+
+    <h2>Closing Reflection</h2>
+
+    <p>Perhaps literature was never divided by East and West, by Arabic and English, by pen and quill. Perhaps it has always been one continuous act the act of naming the human experience before it disappears into silence.</p>
+
+    <p>Somewhere beyond time, in that quiet space where all great writers eventually arrive, Al-Mutanabbi raises a verse like a banner into the dark. And Shakespeare answers with a line like a question and both of them, finally, disappear into the same endless conversation.</p>
+
+    <p>The conversation that is literature itself. The one we are all, still, a part of.</p>
+
+    <div class="closing-line">
+      <p>◆ &nbsp; &nbsp; ◆ &nbsp; &nbsp; ◆</p>
+    </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="article-sidebar">
+
+    <div class="sidebar-section">
+      <span class="sidebar-label">◆ The Author</span>
+      <div class="author-card">
+        <div class="author-info">
+          <span class="a-name">Adib Khalifa Masri</span>
+          <p class="a-bio">English Student, Faculty of Arts and Humanities, Sousse. Founder of Maqam.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <span class="sidebar-label">◆ In This Issue</span>
+      <div class="related-item">
+        <span class="r-cat">History</span>
+        <span class="r-title">The Libraries We Keep Burning: From Alexandria to Mosul</span>
+        <span class="r-min">Omar Sefiani · 12 min</span>
+      </div>
+      <div class="related-item">
+        <span class="r-cat">Literature</span>
+        <span class="r-title">The Untranslatable: Words That Carry Whole Worlds</span>
+        <span class="r-min">Layla Benali · 9 min</span>
+      </div>
+      <div class="related-item">
+        <span class="r-cat">Music</span>
+        <span class="r-title">Maqam as Philosophy: On the Ethics of Sound in Arab Music</span>
+        <span class="r-min">Nour Hadidi · 14 min</span>
+      </div>
+      <div class="related-item">
+        <span class="r-cat">Arts</span>
+        <span class="r-title">Geometry as God: The Mathematics of Islamic Ornament</span>
+        <span class="r-min">Rim Khelil · 10 min</span>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <span class="sidebar-label">◆ Share This Essay</span>
+      <div class="share-links">
+        <a href="#" class="share-btn">Share on X / Twitter</a>
+        <a href="#" class="share-btn">Share on Facebook</a>
+        <a href="#" class="share-btn">Copy Link</a>
+      </div>
+    </div>
+
+  </aside>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <p class="foot-logo-en">MAQAM</p>
+      <p class="foot-logo-ar">مقام</p>
+      <p class="foot-about">A bilingual magazine for arts and humanities. A space where East meets West, and where ideas find their proper station.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Sections</h4>
+      <ul>
+        <li><a href="literature.html">Literature</a></li>
+        <li><a href="philosophy.html">Philosophy</a></li>
+        <li><a href="history.html">History</a></li>
+        <li><a href="arts.html">Arts</a></li>
+        <li><a href="music.html">Music</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Magazine</h4>
+      <ul>
+        <li><a href="about.html">About Maqam</a></li>
+        <li><a href="write.html">Write With Us</a></li>
+        <li><a href="about.html">The Team</a></li>
+        <li><a href="write.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Follow</h4>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">X / Twitter</a></li>
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Newsletter</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <p>© 2025 Maqam Magazine</p>
+    <div class="foot-bottom-center"><span>◆</span><p>From East to West</p><span>◆</span></div>
+    <p>All Rights Reserved</p>
+  </div>
+</footer>
+
+</body>
+</html>

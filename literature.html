@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Literature — Maqam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --gold:#c9a96e;--gold-light:#e8d5a3;--gold-dim:#7a6845;--gold-faint:#3a2f1a;
+  --ink:#0a0810;--ink2:#0f0d16;--ink3:#151220;
+  --border:rgba(201,169,110,0.12);--border2:rgba(201,169,110,0.22);
+  --text:#cfc5ae;--text-dim:#7a7060;--text-muted:#3d3830;
+  /* Literature accent: deep burgundy/rose */
+  --accent:#7a2a3a;--accent-light:#c4687a;--accent-faint:rgba(122,42,58,0.15);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.75;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.5;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:500;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(10,8,16,0.92);border-bottom:0.5px solid var(--border);backdrop-filter:blur(20px);}
+.nav-logo{font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--gold);letter-spacing:8px;text-decoration:none;}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:3px;color:var(--text-dim);text-decoration:none;text-transform:uppercase;transition:color .3s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-links a.active{color:var(--accent-light);}
+.nav-cta{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;color:var(--gold);border:0.5px solid var(--gold-dim);padding:7px 20px;text-decoration:none;text-transform:uppercase;transition:all .3s;}
+.nav-cta:hover{background:var(--gold);color:var(--ink);}
+
+/* HERO */
+.section-hero{
+  position:relative;min-height:70vh;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:100px 52px 64px;
+  border-bottom:0.5px solid var(--border);
+  overflow:hidden;
+}
+.hero-bg-img{
+  position:absolute;inset:0;
+  overflow:hidden;
+}
+.hero-bg-img img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  filter:grayscale(100%) contrast(1.1) brightness(0.35);
+}
+.hero-bg-img::before{
+  content:'';position:absolute;inset:0;z-index:1;
+  background:rgba(80,20,35,0.25);
+  mix-blend-mode:color;
+}
+.hero-bg-img::after{
+  content:'';position:absolute;inset:0;z-index:2;
+  background:linear-gradient(to top, rgba(10,8,16,1) 0%, rgba(10,8,16,0.6) 50%, rgba(10,8,16,0.2) 100%);
+}
+.hero-content{position:relative;z-index:3;max-width:700px;}
+.hero-eyebrow{
+  display:flex;align-items:center;gap:12px;margin-bottom:20px;
+}
+.hero-eyebrow-line{width:32px;height:0.5px;background:var(--accent-light);}
+.hero-eyebrow span{font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;color:var(--accent-light);text-transform:uppercase;}
+.hero-ar{font-family:'Amiri',serif;font-size:56px;color:var(--accent-light);direction:rtl;line-height:1;margin-bottom:8px;opacity:0.6;}
+.hero-en{font-family:'Cinzel',serif;font-size:52px;font-weight:700;color:var(--gold-light);line-height:1.05;margin-bottom:20px;}
+.hero-desc{font-family:'Crimson Pro',serif;font-style:italic;font-size:19px;color:var(--text-dim);max-width:560px;line-height:1.7;}
+
+/* ACCENT BAR */
+.accent-bar{
+  height:2px;
+  background:linear-gradient(to right, var(--accent), var(--accent-light), transparent);
+  width:100%;
+}
+
+/* DIVIDER */
+.divider{display:flex;align-items:center;max-width:1200px;margin:0 auto;padding:0 52px;}
+.divider-line{flex:1;height:0.5px;background:var(--border);}
+.divider-badge{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:4px;color:var(--gold-dim);text-transform:uppercase;padding:0 24px;white-space:nowrap;display:flex;align-items:center;gap:10px;}
+.divider-badge::before,.divider-badge::after{content:'◆';font-size:6px;color:var(--gold-faint);}
+
+/* FEATURED */
+.featured-wrap{
+  max-width:1200px;margin:0 auto;
+  padding:72px 52px 80px;
+  display:grid;grid-template-columns:5fr 4fr;
+  gap:0;border-bottom:0.5px solid var(--border);
+}
+.feat-left{padding-right:60px;border-right:0.5px solid var(--border);}
+.feat-img{
+  width:100%;aspect-ratio:16/9;
+  background:var(--ink3);border:0.5px solid var(--border);
+  margin-bottom:24px;position:relative;overflow:hidden;
+}
+.feat-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(30%) contrast(1.05);transition:transform .6s;}
+.feat-img:hover img{transform:scale(1.03);}
+.feat-img::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to top, rgba(10,8,16,0.5) 0%, transparent 60%);
+}
+.feat-accent-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;
+  color:var(--accent-light);text-transform:uppercase;margin-bottom:14px;
+}
+.feat-accent-tag::before{content:'';width:20px;height:0.5px;background:var(--accent-light);}
+.feat-title{font-family:'Cinzel',serif;font-size:26px;font-weight:600;color:var(--gold-light);line-height:1.25;margin-bottom:16px;}
+.feat-excerpt{font-family:'Crimson Pro',serif;font-size:17px;color:var(--text-dim);line-height:1.8;margin-bottom:24px;}
+.feat-byline{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
+.byline-rule{width:24px;height:0.5px;background:var(--gold-dim);}
+.byline-name{font-family:'Crimson Pro',serif;font-style:italic;font-size:15px;color:var(--text-dim);}
+.read-btn{
+  display:inline-block;font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;
+  color:var(--accent-light);border:0.5px solid var(--accent);
+  padding:10px 24px;text-decoration:none;text-transform:uppercase;transition:all .3s;
+}
+.read-btn:hover{background:var(--accent);color:var(--gold-light);}
+
+.feat-right{padding-left:52px;display:flex;flex-direction:column;}
+.sidebar-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:24px;padding-bottom:12px;border-bottom:0.5px solid var(--border);}
+.side-art{padding:20px 0;border-bottom:0.5px solid var(--border);cursor:pointer;transition:all .3s;}
+.side-art:last-child{border-bottom:none;}
+.side-art:hover .side-title{color:var(--accent-light);}
+.side-tag{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:3px;color:var(--accent-light);text-transform:uppercase;margin-bottom:6px;}
+.side-title{font-family:'Cinzel',serif;font-size:14px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:6px;transition:color .3s;}
+.side-meta{font-family:'Crimson Pro',serif;font-style:italic;font-size:13px;color:var(--text-muted);}
+
+/* PORTRAIT SPOTLIGHT */
+.spotlight{
+  background:var(--ink2);
+  border-top:0.5px solid var(--border);
+  border-bottom:0.5px solid var(--border);
+  padding:72px 52px;
+}
+.spotlight-inner{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:300px 1fr;
+  gap:64px;align-items:center;
+}
+.spotlight-img{
+  position:relative;
+  border:0.5px solid var(--border2);
+  overflow:hidden;
+}
+.spotlight-img img{
+  width:100%;aspect-ratio:3/4;
+  object-fit:cover;object-position:top;
+  filter:grayscale(100%) contrast(1.1) brightness(0.7);
+  display:block;
+}
+.spotlight-img::before{
+  content:'';position:absolute;inset:0;
+  background:rgba(100,30,50,0.2);mix-blend-mode:color;z-index:1;
+}
+.spotlight-img::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:40%;z-index:2;
+  background:linear-gradient(to top, rgba(10,8,16,0.9), transparent);
+}
+.spotlight-caption{
+  position:absolute;bottom:16px;left:16px;z-index:3;
+}
+.spotlight-caption .s-name{font-family:'Cinzel',serif;font-size:13px;font-weight:600;color:var(--gold-light);display:block;margin-bottom:2px;}
+.spotlight-caption .s-role{font-family:'Crimson Pro',serif;font-style:italic;font-size:12px;color:var(--text-dim);display:block;}
+
+.spotlight-text{}
+.spot-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;color:var(--accent-light);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:12px;}
+.spot-label::after{content:'';flex:1;height:0.5px;background:var(--border);}
+.spot-title{font-family:'Cinzel',serif;font-size:28px;font-weight:600;color:var(--gold-light);line-height:1.25;margin-bottom:20px;}
+.spot-text{font-family:'Crimson Pro',serif;font-size:18px;color:var(--text-dim);line-height:1.85;margin-bottom:20px;}
+.spot-quote{
+  border-left:2px solid var(--accent);
+  padding:16px 24px;margin:24px 0;
+  background:rgba(122,42,58,0.08);
+}
+.spot-quote p{font-family:'Crimson Pro',serif;font-style:italic;font-size:20px;color:var(--text);line-height:1.6;margin-bottom:8px;}
+.spot-quote span{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:3px;color:var(--accent-light);text-transform:uppercase;}
+
+/* ARTICLE GRID */
+.grid-section{max-width:1200px;margin:0 auto;padding:72px 52px 80px;}
+.grid-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:48px;border-bottom:0.5px solid var(--border);padding-bottom:16px;}
+.grid-head h2{font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;font-weight:400;color:var(--gold);text-transform:uppercase;}
+.grid-head a{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;color:var(--text-muted);text-decoration:none;text-transform:uppercase;transition:color .3s;}
+.grid-head a:hover{color:var(--accent-light);}
+.articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px 40px;}
+.card{display:flex;flex-direction:column;border-top:0.5px solid var(--border);padding-top:28px;transition:border-color .3s;cursor:pointer;}
+.card:hover{border-color:var(--accent);}
+.card:hover .card-title{color:var(--gold-light);}
+.card-img{aspect-ratio:3/2;background:var(--ink3);border:0.5px solid var(--border);margin-bottom:20px;position:relative;overflow:hidden;}
+.card-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(40%);transition:transform .5s, filter .4s;}
+.card:hover .card-img img{transform:scale(1.04);filter:grayscale(10%);}
+.card-img::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 24px,rgba(201,169,110,0.02) 24px,rgba(201,169,110,0.02) 25px);}
+.card-accent{width:24px;height:2px;background:var(--accent-light);margin-bottom:10px;}
+.card-cat{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:3px;color:var(--accent-light);text-transform:uppercase;margin-bottom:10px;}
+.card-title{font-family:'Cinzel',serif;font-size:15px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:12px;transition:color .3s;}
+.card-excerpt{font-family:'Crimson Pro',serif;font-size:15px;color:var(--text-dim);line-height:1.75;margin-bottom:14px;flex:1;}
+.card-meta{display:flex;align-items:center;gap:10px;margin-top:auto;}
+.card-dot{width:2px;height:2px;background:var(--text-muted);border-radius:50%;}
+.card-author{font-family:'Crimson Pro',serif;font-style:italic;font-size:13px;color:var(--text-muted);}
+.card-min{font-family:'Cinzel',serif;font-size:7px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;}
+
+/* MANUSCRIPT BAND */
+.manuscript-band{
+  background:var(--ink2);
+  border-top:0.5px solid var(--border);
+  border-bottom:0.5px solid var(--border);
+  padding:0;
+  overflow:hidden;
+  position:relative;
+  height:220px;
+}
+.manuscript-band img{
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  filter:grayscale(60%) sepia(30%) brightness(0.4) contrast(1.2);
+  opacity:0.7;
+}
+.manuscript-band::before{
+  content:'';position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to right, rgba(10,8,16,0.9) 0%, rgba(10,8,16,0.4) 40%, rgba(10,8,16,0.4) 60%, rgba(10,8,16,0.9) 100%);
+}
+.manuscript-text{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  z-index:2;text-align:center;
+  width:100%;padding:0 52px;
+}
+.manuscript-text p{
+  font-family:'Amiri',serif;font-size:28px;
+  color:var(--gold-dim);direction:rtl;margin-bottom:8px;
+}
+.manuscript-text span{
+  font-family:'Crimson Pro',serif;font-style:italic;
+  font-size:16px;color:var(--text-muted);
+}
+
+/* FOOTER */
+footer{background:var(--ink);border-top:0.5px solid var(--border);padding:64px 52px 36px;position:relative;z-index:1;}
+.footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:56px;}
+.foot-logo-en{font-family:'Cinzel',serif;font-size:20px;font-weight:700;color:var(--gold);letter-spacing:8px;margin-bottom:4px;}
+.foot-logo-ar{font-family:'Amiri',serif;font-size:22px;color:var(--gold-dim);direction:rtl;margin-bottom:16px;}
+.foot-about{font-family:'Crimson Pro',serif;font-size:15px;color:var(--text-muted);line-height:1.75;max-width:260px;}
+.foot-col h4{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:20px;padding-bottom:10px;border-bottom:0.5px solid var(--border);}
+.foot-col ul{list-style:none;}
+.foot-col li{margin-bottom:10px;}
+.foot-col a{font-family:'Crimson Pro',serif;font-size:15px;color:var(--text-muted);text-decoration:none;transition:color .3s;}
+.foot-col a:hover{color:var(--gold);}
+.foot-bottom{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;border-top:0.5px solid var(--border);padding-top:24px;}
+.foot-bottom p{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;}
+.foot-bottom-center{display:flex;align-items:center;gap:12px;}
+.foot-bottom-center span{font-size:8px;color:var(--gold-faint);}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">MAQAM</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="literature.html" class="active">Literature</a></li>
+    <li><a href="philosophy.html">Philosophy</a></li>
+    <li><a href="history.html">History</a></li>
+    <li><a href="arts.html">Arts</a></li>
+    <li><a href="music.html">Music</a></li>
+  </ul>
+  <a href="write.html" class="nav-cta">Write With Us</a>
+</nav>
+
+<!-- HERO -->
+<div class="section-hero">
+  <div class="hero-bg-img">
+    <img src="lit-manuscript.jpg" alt="Arabic Manuscript"/>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span>Maqam / Section</span>
+    </div>
+    <p class="hero-ar">أدب</p>
+    <h1 class="hero-en">Literature</h1>
+    <p class="hero-desc">From the courts of Abbasid Baghdad to the cafés of Paris, from handwritten manuscripts to digital screens — literature is the oldest conversation humanity has ever had with itself.</p>
+  </div>
+</div>
+<div class="accent-bar"></div>
+
+<!-- FEATURED -->
+<div class="divider" style="margin-top:0;"><div class="divider-line"></div><div class="divider-badge">Featured Essay</div><div class="divider-line"></div></div>
+
+<div class="featured-wrap">
+  <div class="feat-left">
+    <div class="feat-img">
+      <img src="mutanabi.jpg.webp" alt="Al-Mutanabbi"/>
+    </div>
+    <p class="feat-accent-tag">Philosophy · Essay · Issue I</p>
+    <h2 class="feat-title">Between the Pen and the Quill: Al-Mutanabbi Meets Shakespeare</h2>
+    <p class="feat-excerpt">If literature is a long conversation across centuries, then two of its greatest voices have been speaking to each other all along. One wrote in the golden cadence of classical Arabic courts, the other in the restless pulse of Elizabethan England.</p>
+    <div class="feat-byline">
+      <div class="byline-rule"></div>
+      <span class="byline-name">Adib Khalifa Masri</span>
+    </div>
+    <a href="article-pen-and-quill.html" class="read-btn">Read Essay →</a>
+  </div>
+  <div class="feat-right">
+    <p class="sidebar-label">More in Literature</p>
+    <div class="side-art">
+      <p class="side-tag">Essay</p>
+      <h3 class="side-title">The Untranslatable: Words That Carry Whole Worlds</h3>
+      <p class="side-meta">Layla Benali · 9 min</p>
+    </div>
+    <div class="side-art">
+      <p class="side-tag">Criticism</p>
+      <h3 class="side-title">Writing in Two Languages, Living in None</h3>
+      <p class="side-meta">Amina Ouhab · 13 min</p>
+    </div>
+    <div class="side-art">
+      <p class="side-tag">Essay</p>
+      <h3 class="side-title">The Arabic Novel After Mahfouz: A Generation Without Maps</h3>
+      <p class="side-meta">Karim Fassi · 11 min</p>
+    </div>
+    <div class="side-art">
+      <p class="side-tag">Poetry</p>
+      <h3 class="side-title">Three Poems on Exile and Return</h3>
+      <p class="side-meta">Nour Hadidi · 6 min</p>
+    </div>
+  </div>
+</div>
+
+<!-- PORTRAIT SPOTLIGHT: MAHFOUZ -->
+<div class="divider"><div class="divider-line"></div><div class="divider-badge">Writer in Focus</div><div class="divider-line"></div></div>
+
+<div class="spotlight">
+  <div class="spotlight-inner">
+    <div class="spotlight-img">
+      <img src="lit-mahfouz.jpg" alt="Naguib Mahfouz"/>
+      <div class="spotlight-caption">
+        <span class="s-name">Naguib Mahfouz</span>
+        <span class="s-role">1911 – 2006 · Cairo</span>
+      </div>
+    </div>
+    <div class="spotlight-text">
+      <p class="spot-label">Writer in Focus</p>
+      <h2 class="spot-title">Naguib Mahfouz and the Novel as a Map of the City</h2>
+      <p class="spot-text">No writer understood the Arab city the way Mahfouz understood Cairo. His Cairo Trilogy is not just a family saga — it is an entire civilization compressed into three volumes, spanning colonialism, nationalism, and the slow fracturing of tradition under modernity. He gave Arabic literature its first Nobel Prize, and gave Cairo something more precious: immortality.</p>
+      <p class="spot-text">To read Mahfouz is to understand that the novel, in Arabic hands, is not an imported European form — it is a living instrument that the Arab world has made entirely its own.</p>
+      <div class="spot-quote">
+        <p>"Home is not where you live but where they understand you."</p>
+        <span>Naguib Mahfouz</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MANUSCRIPT BAND -->
+<div class="manuscript-band">
+  <img src="lit-manuscript.jpg" alt="Manuscript"/>
+  <div class="manuscript-text">
+    <p>إِنَّمَا الأُمَمُ الأَخْلاقُ مَا بَقِيَتْ</p>
+    <span>"Nations are but their morals — when morals perish, so do they." — Ahmad Shawqi</span>
+  </div>
+</div>
+
+<!-- ARTICLE GRID -->
+<div class="divider"><div class="divider-line"></div><div class="divider-badge">All Essays</div><div class="divider-line"></div></div>
+
+<div class="grid-section">
+  <div class="grid-head">
+    <h2>Literature · All Writing</h2>
+    <a href="write.html">Submit Your Essay →</a>
+  </div>
+  <div class="articles-grid">
+    <div class="card">
+      <div class="card-img">
+        <img src="lit-kafka.jpg" alt="Kafka"/>
+      </div>
+      <div class="card-accent"></div>
+      <p class="card-cat">Essay</p>
+      <h3 class="card-title">Kafka in Arabic: The Absurd as a Mother Tongue</h3>
+      <p class="card-excerpt">What happens when Kafka is translated into Arabic? Does the absurd gain a new home, or does it reveal that it was always already there?</p>
+      <div class="card-meta"><span class="card-author">Omar Sefiani</span><span class="card-dot"></span><span class="card-min">10 min</span></div>
+    </div>
+    <div class="card">
+      <div class="card-img"></div>
+      <div class="card-accent"></div>
+      <p class="card-cat">Criticism</p>
+      <h3 class="card-title">The Untranslatable: Words That Carry Whole Worlds</h3>
+      <p class="card-excerpt">Some words refuse to cross linguistic borders. What is lost — and what is found — when we try?</p>
+      <div class="card-meta"><span class="card-author">Layla Benali</span><span class="card-dot"></span><span class="card-min">9 min</span></div>
+    </div>
+    <div class="card">
+      <div class="card-img"></div>
+      <div class="card-accent"></div>
+      <p class="card-cat">Essay</p>
+      <h3 class="card-title">Writing in Two Languages, Living in None</h3>
+      <p class="card-excerpt">What does it mean to write in a colonial language? Assia Djebar, Tahar Ben Jelloun, and the wound that never closes.</p>
+      <div class="card-meta"><span class="card-author">Amina Ouhab</span><span class="card-dot"></span><span class="card-min">13 min</span></div>
+    </div>
+    <div class="card">
+      <div class="card-img"></div>
+      <div class="card-accent"></div>
+      <p class="card-cat">Essay</p>
+      <h3 class="card-title">The Arabic Novel After Mahfouz: A Generation Without Maps</h3>
+      <p class="card-excerpt">After the master, what? A survey of the Arabic novel in the 21st century and the writers who are reinventing it.</p>
+      <div class="card-meta"><span class="card-author">Karim Fassi</span><span class="card-dot"></span><span class="card-min">11 min</span></div>
+    </div>
+    <div class="card">
+      <div class="card-img"></div>
+      <div class="card-accent"></div>
+      <p class="card-cat">Poetry</p>
+      <h3 class="card-title">Three Poems on Exile and Return</h3>
+      <p class="card-excerpt">Poems that live at the border between languages, between countries, between the self that left and the self that stayed.</p>
+      <div class="card-meta"><span class="card-author">Nour Hadidi</span><span class="card-dot"></span><span class="card-min">6 min</span></div>
+    </div>
+    <div class="card">
+      <div class="card-img"></div>
+      <div class="card-accent"></div>
+      <p class="card-cat">Essay</p>
+      <h3 class="card-title">What Does a Book Owe Its Reader?</h3>
+      <p class="card-excerpt">On the ethics of difficulty, the pleasure of confusion, and why the best books never fully explain themselves.</p>
+      <div class="card-meta"><span class="card-author">Sara Mourad</span><span class="card-dot"></span><span class="card-min">8 min</span></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <p class="foot-logo-en">MAQAM</p>
+      <p class="foot-logo-ar">مقام</p>
+      <p class="foot-about">A bilingual magazine for arts and humanities. A space where East meets West, and where ideas find their proper station.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Sections</h4>
+      <ul>
+        <li><a href="literature.html">Literature</a></li>
+        <li><a href="philosophy.html">Philosophy</a></li>
+        <li><a href="history.html">History</a></li>
+        <li><a href="arts.html">Arts</a></li>
+        <li><a href="music.html">Music</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Magazine</h4>
+      <ul>
+        <li><a href="about.html">About Maqam</a></li>
+        <li><a href="write.html">Write With Us</a></li>
+        <li><a href="about.html">The Team</a></li>
+        <li><a href="write.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Follow</h4>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">X / Twitter</a></li>
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Newsletter</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <p>© 2025 Maqam Magazine</p>
+    <div class="foot-bottom-center"><span>◆</span><p>From East to West</p><span>◆</span></div>
+    <p>All Rights Reserved</p>
+  </div>
+</footer>
+
+</body>
+</html>

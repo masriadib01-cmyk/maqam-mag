@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Write With Us — Maqam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --gold:       #c9a96e;
+  --gold-light: #e8d5a3;
+  --gold-dim:   #7a6845;
+  --gold-faint: #3a2f1a;
+  --ink:        #0a0810;
+  --ink2:       #0f0d16;
+  --ink3:       #151220;
+  --border:     rgba(201,169,110,0.12);
+  --border2:    rgba(201,169,110,0.22);
+  --text:       #cfc5ae;
+  --text-dim:   #7a7060;
+  --text-muted: #3d3830;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.75;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.5;}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(180deg,transparent 0px,transparent 119px,rgba(201,169,110,0.03) 119px,rgba(201,169,110,0.03) 120px);pointer-events:none;z-index:0;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(10,8,16,0.88);border-bottom:0.5px solid var(--border);backdrop-filter:blur(20px);}
+.nav-logo{font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--gold);letter-spacing:8px;text-decoration:none;}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:3px;color:var(--text-dim);text-decoration:none;text-transform:uppercase;transition:color .3s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-cta{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;color:var(--gold);border:0.5px solid var(--gold);padding:7px 20px;text-decoration:none;text-transform:uppercase;background:rgba(201,169,110,0.08);}
+
+/* HERO */
+.write-hero{
+  position:relative;
+  min-height:60vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:120px 48px 80px;
+  border-bottom:0.5px solid var(--border);
+  overflow:hidden;
+}
+.hero-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(201,169,110,0.07) 0%,transparent 70%);pointer-events:none;}
+.hero-pillars{position:absolute;inset:0;pointer-events:none;display:flex;justify-content:space-between;padding:0 80px;}
+.hpillar{width:0.5px;background:linear-gradient(to bottom,transparent,rgba(201,169,110,0.07) 20%,rgba(201,169,110,0.07) 80%,transparent);}
+.hero-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:5px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:24px;animation:fadeUp 1.4s ease both;}
+.write-hero h1{font-family:'Cinzel',serif;font-size:52px;font-weight:700;color:var(--gold-light);line-height:1.1;margin-bottom:16px;animation:fadeUp 1.4s .1s ease both;}
+.write-hero h1 span{font-family:'Amiri',serif;font-size:48px;color:var(--gold-dim);}
+.write-hero-sub{font-family:'Crimson Pro',serif;font-style:italic;font-size:20px;color:var(--text-dim);max-width:580px;margin:0 auto;animation:fadeUp 1.4s .2s ease both;line-height:1.7;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* DIVIDER */
+.divider{display:flex;align-items:center;max-width:1100px;margin:0 auto;padding:0 52px;}
+.divider-line{flex:1;height:0.5px;background:var(--border);}
+.divider-badge{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:4px;color:var(--gold-dim);text-transform:uppercase;padding:0 24px;white-space:nowrap;display:flex;align-items:center;gap:10px;}
+.divider-badge::before,.divider-badge::after{content:'◆';font-size:6px;color:var(--gold-faint);}
+
+/* WHAT WE LOOK FOR */
+.lookfor-section{
+  max-width:1100px;margin:0 auto;
+  padding:80px 52px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  border-bottom:0.5px solid var(--border);
+}
+.lookfor-left h2{
+  font-family:'Cinzel',serif;font-size:28px;font-weight:600;
+  color:var(--gold-light);line-height:1.3;margin-bottom:24px;
+}
+.lookfor-left p{
+  font-family:'Crimson Pro',serif;font-size:18px;
+  color:var(--text-dim);line-height:1.85;margin-bottom:20px;
+}
+.lookfor-left p strong{color:var(--text);font-weight:600;}
+
+.lookfor-right{
+  display:flex;flex-direction:column;gap:0;
+}
+.criteria-item{
+  padding:24px 0;
+  border-bottom:0.5px solid var(--border);
+}
+.criteria-item:first-child{padding-top:0;}
+.criteria-item:last-child{border-bottom:none;}
+.criteria-title{
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;
+  color:var(--gold);text-transform:uppercase;margin-bottom:8px;
+  display:flex;align-items:center;gap:10px;
+}
+.criteria-title::before{content:'◆';font-size:7px;color:var(--gold-dim);}
+.criteria-desc{
+  font-family:'Crimson Pro',serif;font-size:16px;
+  color:var(--text-muted);line-height:1.75;
+}
+
+/* WHAT WE PUBLISH */
+.publish-section{
+  background:var(--ink2);
+  border-top:0.5px solid var(--border);
+  border-bottom:0.5px solid var(--border);
+  padding:80px 52px;
+}
+.publish-inner{max-width:1100px;margin:0 auto;}
+.publish-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+  margin-top:48px;
+}
+.publish-card{
+  border:0.5px solid var(--border);
+  padding:40px 32px;
+  transition:all .4s;
+  position:relative;overflow:hidden;
+}
+.publish-card::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--gold-dim);transform:scaleX(0);
+  transition:transform .4s;transform-origin:left;
+}
+.publish-card:hover::before{transform:scaleX(1);}
+.publish-card:hover{border-color:var(--border2);background:rgba(201,169,110,0.03);}
+.publish-ar{font-family:'Amiri',serif;font-size:28px;color:var(--gold-faint);direction:rtl;margin-bottom:12px;display:block;}
+.publish-type{font-family:'Cinzel',serif;font-size:11px;letter-spacing:3px;color:var(--gold-light);text-transform:uppercase;margin-bottom:10px;display:block;}
+.publish-desc{font-family:'Crimson Pro',serif;font-size:15px;color:var(--text-muted);line-height:1.7;}
+
+/* QUOTE */
+.write-quote{
+  border-top:0.5px solid var(--border);
+  border-bottom:0.5px solid var(--border);
+  padding:64px 52px;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.write-quote::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:200px;background:radial-gradient(ellipse,rgba(201,169,110,0.04) 0%,transparent 70%);}
+.wq-text{font-family:'Crimson Pro',serif;font-style:italic;font-size:24px;color:var(--text);max-width:680px;margin:0 auto 16px;line-height:1.55;position:relative;z-index:1;}
+.wq-source{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--gold-dim);text-transform:uppercase;position:relative;z-index:1;}
+
+/* SUBMISSION FORM SECTION */
+.form-section{
+  max-width:1100px;margin:0 auto;
+  padding:80px 52px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:start;
+}
+
+.form-left h2{
+  font-family:'Cinzel',serif;font-size:28px;font-weight:600;
+  color:var(--gold-light);line-height:1.3;margin-bottom:20px;
+}
+.form-left p{
+  font-family:'Crimson Pro',serif;font-size:17px;
+  color:var(--text-dim);line-height:1.85;margin-bottom:16px;
+}
+
+.email-big{
+  display:block;
+  font-family:'Cinzel',serif;font-size:13px;letter-spacing:2px;
+  color:var(--gold);margin:28px 0 8px;
+  text-decoration:none;
+  border:0.5px solid var(--gold-dim);
+  padding:16px 24px;
+  text-align:center;
+  transition:all .3s;
+}
+.email-big:hover{background:var(--gold);color:var(--ink);}
+
+.form-note{
+  font-family:'Crimson Pro',serif;font-style:italic;
+  font-size:14px;color:var(--text-muted);
+  text-align:center;margin-top:12px;
+}
+
+/* Guidelines */
+.form-right{
+  border-left:0.5px solid var(--border);
+  padding-left:80px;
+}
+.guidelines-title{
+  font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;
+  color:var(--gold-dim);text-transform:uppercase;
+  margin-bottom:28px;
+  display:flex;align-items:center;gap:12px;
+}
+.guidelines-title::after{content:'';flex:1;height:0.5px;background:var(--border);}
+
+.guideline-item{
+  padding:18px 0;
+  border-bottom:0.5px solid var(--border);
+}
+.guideline-item:last-child{border-bottom:none;}
+.g-title{
+  font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;
+  color:var(--gold-dim);text-transform:uppercase;margin-bottom:6px;
+}
+.g-desc{
+  font-family:'Crimson Pro',serif;font-size:15px;
+  color:var(--text-muted);line-height:1.7;
+}
+
+/* FAQ */
+.faq-section{
+  background:var(--ink2);
+  border-top:0.5px solid var(--border);
+  border-bottom:0.5px solid var(--border);
+  padding:80px 52px;
+}
+.faq-inner{max-width:800px;margin:0 auto;}
+.faq-item{
+  padding:28px 0;
+  border-bottom:0.5px solid var(--border);
+}
+.faq-item:last-child{border-bottom:none;}
+.faq-q{
+  font-family:'Cinzel',serif;font-size:13px;font-weight:600;
+  color:var(--gold-light);margin-bottom:12px;line-height:1.4;
+}
+.faq-a{
+  font-family:'Crimson Pro',serif;font-size:17px;
+  color:var(--text-dim);line-height:1.8;
+}
+.faq-a strong{color:var(--text);}
+
+/* FOOTER */
+footer{background:var(--ink);border-top:0.5px solid var(--border);padding:64px 52px 36px;position:relative;z-index:1;}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:56px;}
+.foot-logo-en{font-family:'Cinzel',serif;font-size:20px;font-weight:700;color:var(--gold);letter-spacing:8px;margin-bottom:4px;}
+.foot-logo-ar{font-family:'Amiri',serif;font-size:22px;color:var(--gold-dim);direction:rtl;margin-bottom:16px;}
+.foot-about{font-family:'Crimson Pro',serif;font-size:15px;color:var(--text-muted);line-height:1.75;max-width:260px;}
+.foot-col h4{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:20px;padding-bottom:10px;border-bottom:0.5px solid var(--border);}
+.foot-col ul{list-style:none;}
+.foot-col li{margin-bottom:10px;}
+.foot-col a{font-family:'Crimson Pro',serif;font-size:15px;color:var(--text-muted);text-decoration:none;transition:color .3s;}
+.foot-col a:hover{color:var(--gold);}
+.foot-bottom{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;border-top:0.5px solid var(--border);padding-top:24px;}
+.foot-bottom p{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;}
+.foot-bottom-center{display:flex;align-items:center;gap:12px;}
+.foot-bottom-center span{font-size:8px;color:var(--gold-faint);}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">MAQAM</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="literature.html">Literature</a></li>
+    <li><a href="philosophy.html">Philosophy</a></li>
+    <li><a href="history.html">History</a></li>
+    <li><a href="arts.html">Arts</a></li>
+    <li><a href="music.html">Music</a></li>
+  </ul>
+  <a href="write.html" class="nav-cta">Write With Us</a>
+</nav>
+
+<!-- HERO -->
+<div class="write-hero">
+  <div class="hero-glow"></div>
+  <div class="hero-pillars">
+    <div class="hpillar"></div><div class="hpillar"></div>
+    <div class="hpillar"></div><div class="hpillar"></div>
+    <div class="hpillar"></div><div class="hpillar"></div>
+  </div>
+  <p class="hero-label">◆ Join Maqam</p>
+  <h1>Write With <span>مقام</span></h1>
+  <p class="write-hero-sub">You have something to say. We are here to make sure it is heard. In whatever language you feel it in.</p>
+</div>
+
+<!-- WHAT WE LOOK FOR -->
+<div class="divider" style="margin-top:0;"><div class="divider-line"></div><div class="divider-badge">What We Look For</div><div class="divider-line"></div></div>
+
+<div class="lookfor-section">
+  <div class="lookfor-left">
+    <h2>We do not publish content. We publish voices.</h2>
+    <p>Maqam is not looking for perfect academic prose. We are not a journal. We are not a newspaper. We are a space for <strong>genuine thinking</strong>, expressed honestly, in whatever form it takes.</p>
+    <p>If you have something you have been turning over in your mind, something that needs to be written to be understood, something that literature, history, music, or philosophy has made you feel — that is exactly what we want to read.</p>
+    <p>We publish in <strong>Arabic, English, and French</strong>. We celebrate writing that moves between languages. We do not ask for credentials. We ask for honesty.</p>
+  </div>
+  <div class="lookfor-right">
+    <div class="criteria-item">
+      <p class="criteria-title">A Real Perspective</p>
+      <p class="criteria-desc">Not a summary of what others have said. Your actual view, your actual argument, your actual experience with a text, an idea, or a cultural moment.</p>
+    </div>
+    <div class="criteria-item">
+      <p class="criteria-title">Depth Over Speed</p>
+      <p class="criteria-desc">We are not chasing trends. A piece about a poem from the 10th century is as welcome as a piece about a film from last year, as long as it goes somewhere real.</p>
+    </div>
+    <div class="criteria-item">
+      <p class="criteria-title">Language as Identity</p>
+      <p class="criteria-desc">We especially welcome writing that reflects the multilingual reality of young Arabs and diaspora communities. Code-switching is not a flaw here. It is a feature.</p>
+    </div>
+    <div class="criteria-item">
+      <p class="criteria-title">The Courage to Be Wrong</p>
+      <p class="criteria-desc">We prefer a bold, arguable claim to a safe, empty one. Say something. We can edit the edges. We cannot edit the absence of a thought.</p>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT WE PUBLISH -->
+<div class="divider"><div class="divider-line"></div><div class="divider-badge">What We Publish</div><div class="divider-line"></div></div>
+
+<div class="publish-section">
+  <div class="publish-inner">
+    <div class="publish-grid">
+      <div class="publish-card">
+        <span class="publish-ar">مقالة</span>
+        <span class="publish-type">The Essay</span>
+        <p class="publish-desc">Long-form personal or critical essays on literature, philosophy, history, arts, music, or cinema. 1,000 to 4,000 words. This is our main form.</p>
+      </div>
+      <div class="publish-card">
+        <span class="publish-ar">نقد</span>
+        <span class="publish-type">Criticism</span>
+        <p class="publish-desc">Reviews and critical readings of books, films, albums, or exhibitions. Not summaries. Actual critical engagement with the work and what it means.</p>
+      </div>
+      <div class="publish-card">
+        <span class="publish-ar">شعر</span>
+        <span class="publish-type">Poetry</span>
+        <p class="publish-desc">Original poetry in Arabic, English, or French. Or all three. We have no rules about form. We have only one rule: it must earn its line breaks.</p>
+      </div>
+      <div class="publish-card">
+        <span class="publish-ar">سرد</span>
+        <span class="publish-type">Personal Narrative</span>
+        <p class="publish-desc">Personal essays where a lived experience becomes a lens for a larger cultural or intellectual question. The personal is always political, always literary.</p>
+      </div>
+      <div class="publish-card">
+        <span class="publish-ar">حوار</span>
+        <span class="publish-type">Dialogue</span>
+        <p class="publish-desc">Interviews with writers, artists, musicians, or thinkers. Or imagined conversations across time, like the one between Al-Mutanabbi and Shakespeare in our first issue.</p>
+      </div>
+      <div class="publish-card">
+        <span class="publish-ar">ترجمة</span>
+        <span class="publish-type">Translation</span>
+        <p class="publish-desc">Translations of poems, essays, or short prose pieces from Arabic to English or French, or the reverse. With a short introduction from the translator.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUOTE -->
+<div class="write-quote">
+  <p class="wq-text">"Write what disturbs you, what you fear, what you have not been willing to speak about. Be willing to be split open."</p>
+  <p class="wq-source">Natalie Goldberg</p>
+</div>
+
+<!-- SUBMISSION -->
+<div class="divider"><div class="divider-line"></div><div class="divider-badge">How to Submit</div><div class="divider-line"></div></div>
+
+<div class="form-section">
+  <div class="form-left">
+    <h2>Send Us Your Work</h2>
+    <p>We keep things simple. No submission portals, no complicated forms. Send your piece directly to our editorial email. We read everything.</p>
+    <p>Include a short note about yourself and what you are sending. That is all we need.</p>
+    <p>We aim to respond within <strong>two to three weeks</strong>. If your piece is accepted, we will work with you directly to prepare it for publication.</p>
+
+    <a href="mailto:maqam052@gmail.com" class="email-big">maqam052@gmail.com</a>
+    <p class="form-note">We read every submission personally.</p>
+  </div>
+
+  <div class="form-right">
+    <p class="guidelines-title">Submission Guidelines</p>
+    <div class="guideline-item">
+      <p class="g-title">◆ Length</p>
+      <p class="g-desc">800 to 4,000 words for essays and criticism. Poetry: any length. We value every word earning its place.</p>
+    </div>
+    <div class="guideline-item">
+      <p class="g-title">◆ Languages</p>
+      <p class="g-desc">Arabic, English, French, or a combination. Please include a short translation or summary if writing primarily in Arabic or French.</p>
+    </div>
+    <div class="guideline-item">
+      <p class="g-title">◆ Format</p>
+      <p class="g-desc">Send as a Word document or Google Doc. Use a clean, readable font. No heavy formatting needed — we handle design on our end.</p>
+    </div>
+    <div class="guideline-item">
+      <p class="g-title">◆ Bio</p>
+      <p class="g-desc">A short sentence or two about who you are. No CV required. You can be a student, an independent writer, or someone who has never published before.</p>
+    </div>
+    <div class="guideline-item">
+      <p class="g-title">◆ Simultaneous Submissions</p>
+      <p class="g-desc">We accept simultaneous submissions but ask that you notify us immediately if your piece is accepted elsewhere.</p>
+    </div>
+    <div class="guideline-item">
+      <p class="g-title">◆ Response Time</p>
+      <p class="g-desc">We aim to respond within two to three weeks. If you have not heard from us after a month, feel free to follow up.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="divider"><div class="divider-line"></div><div class="divider-badge">Common Questions</div><div class="divider-line"></div></div>
+
+<div class="faq-section">
+  <div class="faq-inner">
+    <div class="faq-item">
+      <p class="faq-q">Do I need to be a professional writer or have published before?</p>
+      <p class="faq-a">Not at all. Maqam was founded by a student. We believe the most interesting voices are often those who have never been given a platform before. We care about the quality of the thinking, not the length of the CV.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Can I write in Arabic only?</p>
+      <p class="faq-a">Yes. We publish in Arabic, English, and French. If you write in Arabic, we may ask you to provide a short summary in English or French so that our multilingual readership can engage with your piece.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">What topics are you most interested in right now?</p>
+      <p class="faq-a">We are always interested in writing that connects <strong>East and West</strong>, that examines what Arabic literature means to a generation that also reads in French and English, that takes on questions of identity, language, exile, beauty, and freedom. But we are open. If you have something that does not fit a category, send it anyway.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Will you edit my work?</p>
+      <p class="faq-a">Yes, lightly. We will never change your voice or your argument. We will work with you, not on you. You will see all edits before publication and have the final word.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Is there any payment?</p>
+      <p class="faq-a">Maqam is currently a non-commercial independent magazine. We cannot offer payment at this stage. What we can offer is a serious editorial process, a beautiful platform, and a community of readers who genuinely care about ideas. As the magazine grows, this will change.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <p class="foot-logo-en">MAQAM</p>
+      <p class="foot-logo-ar">مقام</p>
+      <p class="foot-about">A bilingual magazine for arts and humanities. A space where East meets West, and where ideas find their proper station.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Sections</h4>
+      <ul>
+        <li><a href="literature.html">Literature</a></li>
+        <li><a href="philosophy.html">Philosophy</a></li>
+        <li><a href="history.html">History</a></li>
+        <li><a href="arts.html">Arts</a></li>
+        <li><a href="music.html">Music</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Magazine</h4>
+      <ul>
+        <li><a href="about.html">About Maqam</a></li>
+        <li><a href="write.html">Write With Us</a></li>
+        <li><a href="about.html">The Team</a></li>
+        <li><a href="write.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Follow</h4>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">X / Twitter</a></li>
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Newsletter</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <p>© 2025 Maqam Magazine</p>
+    <div class="foot-bottom-center"><span>◆</span><p>From East to West</p><span>◆</span></div>
+    <p>All Rights Reserved</p>
+  </div>
+</footer>
+
+</body>
+</html>

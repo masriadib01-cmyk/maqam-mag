@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Arts — Maqam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --gold:#c9a96e;--gold-light:#e8d5a3;--gold-dim:#7a6845;--gold-faint:#3a2f1a;
+  --ink:#0a0810;--ink2:#0f0d16;--ink3:#151220;
+  --border:rgba(201,169,110,0.12);--border2:rgba(201,169,110,0.22);
+  --text:#cfc5ae;--text-dim:#7a7060;--text-muted:#3d3830;
+  /* Arts accent: deep teal/emerald */
+  --accent:#0d3d35;--accent-light:#4aab96;--accent-faint:rgba(13,61,53,0.2);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.75;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.5;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:500;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(10,8,16,0.92);border-bottom:0.5px solid var(--border);backdrop-filter:blur(20px);}
+.nav-logo{font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--gold);letter-spacing:8px;text-decoration:none;}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:3px;color:var(--text-dim);text-decoration:none;text-transform:uppercase;transition:color .3s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-links a.active{color:var(--accent-light);}
+.nav-cta{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;color:var(--gold);border:0.5px solid var(--gold-dim);padding:7px 20px;text-decoration:none;text-transform:uppercase;transition:all .3s;}
+.nav-cta:hover{background:var(--gold);color:var(--ink);}
+
+/* HERO — full bleed gallery feel */
+.section-hero{position:relative;min-height:85vh;display:flex;flex-direction:column;justify-content:flex-end;padding:100px 52px 64px;overflow:hidden;}
+.hero-mosaic{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;}
+.mosaic-panel{overflow:hidden;position:relative;}
+.mosaic-panel img{width:100%;height:100%;object-fit:cover;filter:grayscale(80%) brightness(0.35) contrast(1.15);transition:filter 8s;}
+.mosaic-panel:nth-child(1){grid-row:1;}
+.mosaic-panel:nth-child(2){grid-row:1;}
+.mosaic-panel:nth-child(3){grid-row:1;}
+/* Teal color wash */
+.mosaic-panel::before{content:'';position:absolute;inset:0;z-index:1;background:rgba(13,61,53,0.25);mix-blend-mode:color;}
+/* Gradient overlay */
+.hero-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(to top,rgba(10,8,16,1) 0%,rgba(10,8,16,0.65) 40%,rgba(10,8,16,0.15) 100%);}
+.hero-content{position:relative;z-index:3;max-width:760px;}
+.hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.hero-eyebrow-line{width:32px;height:0.5px;background:var(--accent-light);}
+.hero-eyebrow span{font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;color:var(--accent-light);text-transform:uppercase;}
+.hero-ar{font-family:'Amiri',serif;font-size:56px;color:var(--accent-light);direction:rtl;line-height:1;margin-bottom:8px;opacity:0.55;}
+.hero-en{font-family:'Cinzel',serif;font-size:52px;font-weight:700;color:var(--gold-light);line-height:1.05;margin-bottom:20px;}
+.hero-desc{font-family:'Crimson Pro',serif;font-style:italic;font-size:19px;color:var(--text-dim);max-width:600px;line-height:1.7;}
+.accent-bar{height:2px;background:linear-gradient(to right,var(--accent),var(--accent-light),transparent);width:100%;}
+
+/* DIVIDER */
+.divider{display:flex;align-items:center;max-width:1200px;margin:0 auto;padding:0 52px;}
+.divider-line{flex:1;height:0.5px;background:var(--border);}
+.divider-badge{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:4px;color:var(--gold-dim);text-transform:uppercase;padding:0 24px;white-space:nowrap;display:flex;align-items:center;gap:10px;}
+.divider-badge::before,.divider-badge::after{content:'◆';font-size:6px;color:var(--gold-faint);}
+
+/* FEATURED */
+.featured-wrap{max-width:1200px;margin:0 auto;padding:72px 52px 80px;display:grid;grid-template-columns:5fr 4fr;gap:0;border-bottom:0.5px solid var(--border);}
+.feat-left{padding-right:60px;border-right:0.5px solid var(--border);}
+.feat-img{width:100%;aspect-ratio:16/9;background:var(--ink3);border:0.5px solid var(--border);margin-bottom:24px;position:relative;overflow:hidden;}
+.feat-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s;}
+.feat-img:hover img{transform:scale(1.03);}
+.feat-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,0.5) 0%,transparent 60%);}
+.feat-accent-tag{display:inline-flex;align-items:center;gap:8px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--accent-light);text-transform:uppercase;margin-bottom:14px;}
+.feat-accent-tag::before{content:'';width:20px;height:0.5px;background:var(--accent-light);}
+.feat-title{font-family:'Cinzel',serif;font-size:26px;font-weight:600;color:var(--gold-light);line-height:1.25;margin-bottom:16px;}
+.feat-excerpt{font-family:'Crimson Pro',serif;font-size:17px;color:var(--text-dim);line-height:1.8;margin-bottom:24px;}
+.feat-byline{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
+.byline-rule{width:24px;height:0.5px;background:var(--gold-dim);}
+.byline-name{font-family:'Crimson Pro',serif;font-style:italic;font-size:15px;color:var(--text-dim);}
+.read-btn{display:inline-block;font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--accent-light);border:0.5px solid var(--accent-light);padding:10px 24px;text-decoration:none;text-transform:uppercase;transition:all .3s;}
+.read-btn:hover{background:var(--accent-light);color:var(--ink);}
+.feat-right{padding-left:52px;display:flex;flex-direction:column;}
+.sidebar-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:24px;padding-bottom:12px;border-bottom:0.5px solid var(--border);}
+.side-art{padding:20px 0;border-bottom:0.5px solid var(--border);cursor:pointer;}
+.side-art:last-child{border-bottom:none;}
+.side-art:hover .side-title{color:var(--accent-light);}
+.side-tag{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:3px;color:var(--accent-light);text-transform:uppercase;margin-bottom:6px;}
+.side-title{font-family:'Cinzel',serif;font-size:14px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:6px;transition:color .3s;}
+.side-meta{font-family:'Crimson Pro',serif;font-style:italic;font-size:13px;color:var(--text-muted);}
+
+/* GALLERY WALL */
+.gallery-section{
+  background:var(--ink2);
+  border-top:0.5px solid var(--border);
+  border-bottom:0.5px solid var(--border);
+  padding:72px 52px;
+}
+.gallery-inner{max-width:1200px;margin:0 auto;}
+.gallery-intro{font-family:'Crimson Pro',serif;font-style:italic;font-size:19px;color:var(--text-dim);max-width:680px;margin:0 auto 56px;text-align:center;line-height:1.85;}
+
+/* Asymmetric masonry-style gallery */
+.gallery-wall{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  grid-template-rows:auto auto;
+  gap:3px;
+}
+.gw-item{position:relative;overflow:hidden;cursor:pointer;}
+.gw-item:nth-child(1){grid-column:1/3;grid-row:1;}
+.gw-item:nth-child(2){grid-column:3/4;grid-row:1;}
+.gw-item:nth-child(3){grid-column:1/2;grid-row:2;}
+.gw-item:nth-child(4){grid-column:2/4;grid-row:2;}
+
+.gw-item img{
+  width:100%;height:100%;
+  object-fit:cover;
+  min-height:280px;
+  filter:saturate(0.7) brightness(0.65) contrast(1.1);
+  transition:filter .5s,transform .6s;
+  display:block;
+}
+.gw-item:hover img{filter:saturate(0.9) brightness(0.75);transform:scale(1.03);}
+.gw-item::before{content:'';position:absolute;inset:0;z-index:1;background:rgba(13,61,53,0.2);mix-blend-mode:color;}
+.gw-item::after{content:'';position:absolute;inset:0;z-index:2;background:linear-gradient(to top,rgba(10,8,16,0.9) 0%,rgba(10,8,16,0.2) 60%,transparent 100%);}
+.gw-caption{position:absolute;bottom:0;left:0;right:0;z-index:3;padding:20px 20px 18px;}
+.gw-tag{font-family:'Cinzel',serif;font-size:7px;letter-spacing:3px;color:var(--accent-light);text-transform:uppercase;margin-bottom:5px;display:block;}
+.gw-title{font-family:'Cinzel',serif;font-size:14px;font-weight:600;color:var(--gold-light);line-height:1.35;display:block;}
+
+/* TRADITIONS BAND */
+.traditions{
+  border-top:0.5px solid var(--border);
+  border-bottom:0.5px solid var(--border);
+  padding:72px 52px;
+  max-width:100%;
+}
+.traditions-inner{max-width:1200px;margin:0 auto;}
+.traditions-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:48px;}
+.trad-card{
+  border:0.5px solid var(--border);
+  overflow:hidden;
+  transition:border-color .4s;
+  position:relative;
+}
+.trad-card:hover{border-color:var(--accent-light);}
+.trad-img{aspect-ratio:4/3;overflow:hidden;position:relative;}
+.trad-img img{width:100%;height:100%;object-fit:cover;filter:saturate(0.5) brightness(0.5) contrast(1.1);transition:filter .5s,transform .6s;}
+.trad-card:hover .trad-img img{filter:saturate(0.75) brightness(0.6);transform:scale(1.04);}
+.trad-img::before{content:'';position:absolute;inset:0;z-index:1;background:rgba(13,61,53,0.18);mix-blend-mode:color;}
+.trad-img::after{content:'';position:absolute;bottom:0;left:0;right:0;height:50%;z-index:2;background:linear-gradient(to top,rgba(10,8,16,0.95),transparent);}
+.trad-body{padding:28px 28px 32px;background:var(--ink3);}
+.trad-origin{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--accent-light);text-transform:uppercase;margin-bottom:8px;display:block;}
+.trad-ar{font-family:'Amiri',serif;font-size:24px;color:var(--gold-dim);direction:rtl;display:block;margin-bottom:6px;}
+.trad-title{font-family:'Cinzel',serif;font-size:16px;font-weight:600;color:var(--gold-light);display:block;margin-bottom:12px;}
+.trad-desc{font-family:'Crimson Pro',serif;font-size:15px;color:var(--text-muted);line-height:1.7;}
+
+/* QUOTE BAND */
+.quote-band{
+  background:var(--ink2);
+  border-top:0.5px solid var(--border);
+  border-bottom:0.5px solid var(--border);
+  padding:64px 52px;text-align:center;position:relative;overflow:hidden;
+}
+.quote-band::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:200px;background:radial-gradient(ellipse,rgba(74,171,150,0.05) 0%,transparent 70%);}
+.qb-text{font-family:'Crimson Pro',serif;font-style:italic;font-size:26px;color:var(--text);max-width:700px;margin:0 auto 14px;line-height:1.5;position:relative;z-index:1;}
+.qb-ar{font-family:'Amiri',serif;font-size:22px;color:var(--accent-light);direction:rtl;margin-bottom:18px;position:relative;z-index:1;}
+.qb-source{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--text-muted);text-transform:uppercase;position:relative;z-index:1;}
+
+/* ARTICLE GRID */
+.grid-section{max-width:1200px;margin:0 auto;padding:72px 52px 80px;}
+.grid-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:48px;border-bottom:0.5px solid var(--border);padding-bottom:16px;}
+.grid-head h2{font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;font-weight:400;color:var(--gold);text-transform:uppercase;}
+.grid-head a{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;color:var(--text-muted);text-decoration:none;text-transform:uppercase;transition:color .3s;}
+.grid-head a:hover{color:var(--accent-light);}
+.articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px 40px;}
+.card{display:flex;flex-direction:column;border-top:0.5px solid var(--border);padding-top:28px;transition:border-color .3s;cursor:pointer;}
+.card:hover{border-color:var(--accent-light);}
+.card:hover .card-title{color:var(--gold-light);}
+.card-img{aspect-ratio:3/2;background:var(--ink3);border:0.5px solid var(--border);margin-bottom:20px;position:relative;overflow:hidden;}
+.card-img img{width:100%;height:100%;object-fit:cover;filter:saturate(0.6);transition:transform .5s,filter .4s;}
+.card:hover .card-img img{transform:scale(1.04);filter:saturate(0.85);}
+.card-img-empty::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 24px,rgba(74,171,150,0.03) 24px,rgba(74,171,150,0.03) 25px);}
+.card-accent{width:24px;height:2px;background:var(--accent-light);margin-bottom:10px;}
+.card-cat{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:3px;color:var(--accent-light);text-transform:uppercase;margin-bottom:10px;}
+.card-title{font-family:'Cinzel',serif;font-size:15px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:12px;transition:color .3s;}
+.card-excerpt{font-family:'Crimson Pro',serif;font-size:15px;color:var(--text-dim);line-height:1.75;margin-bottom:14px;flex:1;}
+.card-meta{display:flex;align-items:center;gap:10px;margin-top:auto;}
+.card-dot{width:2px;height:2px;background:var(--text-muted);border-radius:50%;}
+.card-author{font-family:'Crimson Pro',serif;font-style:italic;font-size:13px;color:var(--text-muted);}
+.card-min{font-family:'Cinzel',serif;font-size:7px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;}
+
+footer{background:var(--ink);border-top:0.5px solid var(--border);padding:64px 52px 36px;position:relative;z-index:1;}
+.footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:56px;}
+.foot-logo-en{font-family:'Cinzel',serif;font-size:20px;font-weight:700;color:var(--gold);letter-spacing:8px;margin-bottom:4px;}
+.foot-logo-ar{font-family:'Amiri',serif;font-size:22px;color:var(--gold-dim);direction:rtl;margin-bottom:16px;}
+.foot-about{font-family:'Crimson Pro',serif;font-size:15px;color:var(--text-muted);line-height:1.75;max-width:260px;}
+.foot-col h4{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:20px;padding-bottom:10px;border-bottom:0.5px solid var(--border);}
+.foot-col ul{list-style:none;}
+.foot-col li{margin-bottom:10px;}
+.foot-col a{font-family:'Crimson Pro',serif;font-size:15px;color:var(--text-muted);text-decoration:none;transition:color .3s;}
+.foot-col a:hover{color:var(--gold);}
+.foot-bottom{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;border-top:0.5px solid var(--border);padding-top:24px;}
+.foot-bottom p{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;}
+.foot-bottom-center{display:flex;align-items:center;gap:12px;}
+.foot-bottom-center span{font-size:8px;color:var(--gold-faint);}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">MAQAM</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="literature.html">Literature</a></li>
+    <li><a href="philosophy.html">Philosophy</a></li>
+    <li><a href="history.html">History</a></li>
+    <li><a href="arts.html" class="active">Arts</a></li>
+    <li><a href="music.html">Music</a></li>
+  </ul>
+  <a href="write.html" class="nav-cta">Write With Us</a>
+</nav>
+
+<!-- HERO — mosaic of all 3 images -->
+<div class="section-hero">
+  <div class="hero-mosaic">
+    <div class="mosaic-panel"><img src="art-arab.jpg" alt="Arab Art"/></div>
+    <div class="mosaic-panel"><img src="art-french.jpg" alt="French Art"/></div>
+    <div class="mosaic-panel"><img src="art-persian.jpg" alt="Persian Art"/></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span>Maqam / Section</span>
+    </div>
+    <p class="hero-ar">فنون</p>
+    <h1 class="hero-en">Arts</h1>
+    <p class="hero-desc">Art is what happens when a civilization looks at itself and decides to be beautiful. From Islamic geometric ornament to Impressionist light, from calligraphy to canvas — beauty is never innocent, and we write about why.</p>
+  </div>
+</div>
+<div class="accent-bar"></div>
+
+<!-- FEATURED -->
+<div class="divider" style="margin-top:0;"><div class="divider-line"></div><div class="divider-badge">Featured Essay</div><div class="divider-line"></div></div>
+
+<div class="featured-wrap">
+  <div class="feat-left">
+    <div class="feat-img">
+      <img src="art-arab.jpg" alt="Arab Art"/>
+    </div>
+    <p class="feat-accent-tag">Arts · Essay · Issue I</p>
+    <h2 class="feat-title">Geometry as God: The Mathematics of Islamic Ornament</h2>
+    <p class="feat-excerpt">In a tradition that forbade the image of the divine, artists turned to geometry as theology. Every repeating pattern in every mosque is a meditation on infinity. On how Islamic art became the most intellectually rigorous visual tradition ever created.</p>
+    <div class="feat-byline">
+      <div class="byline-rule"></div>
+      <span class="byline-name">Rim Khelil</span>
+    </div>
+    <a href="#" class="read-btn">Read Essay →</a>
+  </div>
+  <div class="feat-right">
+    <p class="sidebar-label">More in Arts</p>
+    <div class="side-art">
+      <p class="side-tag">Essay</p>
+      <h3 class="side-title">Calligraphy as Theology: The Sacred Art of the Word</h3>
+      <p class="side-meta">Tarek Benmoussa · 10 min</p>
+    </div>
+    <div class="side-art">
+      <p class="side-tag">Criticism</p>
+      <h3 class="side-title">Persian Miniatures and the Art of the Invisible</h3>
+      <p class="side-meta">Sara Mourad · 11 min</p>
+    </div>
+    <div class="side-art">
+      <p class="side-tag">Essay</p>
+      <h3 class="side-title">Orientalism in Paint: What European Artists Got Wrong</h3>
+      <p class="side-meta">Layla Benali · 13 min</p>
+    </div>
+    <div class="side-art">
+      <p class="side-tag">Essay</p>
+      <h3 class="side-title">The Arab Body in Contemporary Art: Reclaiming the Image</h3>
+      <p class="side-meta">Nour Hadidi · 9 min</p>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY WALL -->
+<div class="divider"><div class="divider-line"></div><div class="divider-badge">The Gallery</div><div class="divider-line"></div></div>
+
+<div class="gallery-section">
+  <div class="gallery-inner">
+    <p class="gallery-intro">Three traditions. Three ways of seeing the world. Each one convinced that beauty was a form of truth.</p>
+    <div class="gallery-wall">
+      <div class="gw-item">
+        <img src="art-arab.jpg" alt="Arab Art"/>
+        <div class="gw-caption">
+          <span class="gw-tag">◆ Arab Tradition</span>
+          <span class="gw-title">Pattern, Repetition, and the Divine</span>
+        </div>
+      </div>
+      <div class="gw-item">
+        <img src="art-persian.jpg" alt="Persian Art"/>
+        <div class="gw-caption">
+          <span class="gw-tag">◆ Persian Tradition</span>
+          <span class="gw-title">Miniature, Color, and Paradise</span>
+        </div>
+      </div>
+      <div class="gw-item">
+        <img src="art-persian.jpg" alt="Persian Miniature"/>
+        <div class="gw-caption">
+          <span class="gw-tag">◆ Calligraphy</span>
+          <span class="gw-title">The Word as Image</span>
+        </div>
+      </div>
+      <div class="gw-item">
+        <img src="art-french.jpg" alt="French Art"/>
+        <div class="gw-caption">
+          <span class="gw-tag">◆ Western Tradition</span>
+          <span class="gw-title">Light, Shadow, and the Human Figure</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- THREE TRADITIONS -->
+<div class="divider"><div class="divider-line"></div><div class="divider-badge">Three Traditions</div><div class="divider-line"></div></div>
+
+<div class="traditions">
+  <div class="traditions-inner">
+    <div class="traditions-grid">
+      <div class="trad-card">
+        <div class="trad-img"><img src="art-arab.jpg" alt="Arab Art"/></div>
+        <div class="trad-body">
+          <span class="trad-origin">Arab World</span>
+          <span class="trad-ar">الفن الإسلامي</span>
+          <span class="trad-title">Islamic Art</span>
+          <p class="trad-desc">Rooted in geometry, calligraphy, and the rejection of representation, Islamic art built an entirely original visual language — one that is abstract, mathematical, and deeply spiritual all at once.</p>
+        </div>
+      </div>
+      <div class="trad-card">
+        <div class="trad-img"><img src="art-persian.jpg" alt="Persian Art"/></div>
+        <div class="trad-body">
+          <span class="trad-origin">Iran · Central Asia</span>
+          <span class="trad-ar">المنمنمات الفارسية</span>
+          <span class="trad-title">Persian Miniature</span>
+          <p class="trad-desc">Intimate, jewel-like, impossibly detailed — Persian miniatures are entire worlds compressed into a single page. They depict paradise, love, and war with the same serene precision.</p>
+        </div>
+      </div>
+      <div class="trad-card">
+        <div class="trad-img"><img src="art-french.jpg" alt="French Art"/></div>
+        <div class="trad-body">
+          <span class="trad-origin">Europe · France</span>
+          <span class="trad-ar">الفن الغربي</span>
+          <span class="trad-title">Western Painting</span>
+          <p class="trad-desc">From the Renaissance to Impressionism, Western painting developed an obsession with light, perspective, and the individual human body. It is an art of presence — of things as they appear to the eye.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUOTE BAND -->
+<div class="quote-band">
+  <p class="qb-text">"Every work of art is an act of faith. You make something beautiful and hope it survives you."</p>
+  <p class="qb-ar">كل عمل فني هو رهان على الأبدية.</p>
+  <p class="qb-source">Maqam · Arts Section</p>
+</div>
+
+<!-- ARTICLE GRID -->
+<div class="divider"><div class="divider-line"></div><div class="divider-badge">All Essays</div><div class="divider-line"></div></div>
+
+<div class="grid-section">
+  <div class="grid-head">
+    <h2>Arts · All Writing</h2>
+    <a href="write.html">Submit Your Essay →</a>
+  </div>
+  <div class="articles-grid">
+    <div class="card">
+      <div class="card-img"><img src="art-arab.jpg" alt="Arab Art"/></div>
+      <div class="card-accent"></div>
+      <p class="card-cat">Essay</p>
+      <h3 class="card-title">Geometry as God: The Mathematics of Islamic Ornament</h3>
+      <p class="card-excerpt">How Islamic artists turned geometry into theology — and created the most mathematically rigorous visual tradition in history.</p>
+      <div class="card-meta"><span class="card-author">Rim Khelil</span><span class="card-dot"></span><span class="card-min">10 min</span></div>
+    </div>
+    <div class="card">
+      <div class="card-img"><img src="art-persian.jpg" alt="Persian Art"/></div>
+      <div class="card-accent"></div>
+      <p class="card-cat">Criticism</p>
+      <h3 class="card-title">Persian Miniatures and the Art of the Invisible</h3>
+      <p class="card-excerpt">What the Persian miniature tradition understood about beauty that Western painting took centuries to discover.</p>
+      <div class="card-meta"><span class="card-author">Sara Mourad</span><span class="card-dot"></span><span class="card-min">11 min</span></div>
+    </div>
+    <div class="card">
+      <div class="card-img"><img src="art-french.jpg" alt="French Art"/></div>
+      <div class="card-accent"></div>
+      <p class="card-cat">Essay</p>
+      <h3 class="card-title">Orientalism in Paint: What European Artists Got Wrong</h3>
+      <p class="card-excerpt">Delacroix, Gerome, Ingres — they painted the Arab world with beauty and ignorance in equal measure. On the politics of the gaze.</p>
+      <div class="card-meta"><span class="card-author">Layla Benali</span><span class="card-dot"></span><span class="card-min">13 min</span></div>
+    </div>
+    <div class="card">
+      <div class="card-img card-img-empty"></div>
+      <div class="card-accent"></div>
+      <p class="card-cat">Essay</p>
+      <h3 class="card-title">Calligraphy as Theology: The Sacred Art of the Word</h3>
+      <p class="card-excerpt">In Islamic tradition, the word precedes the image. How calligraphy became the highest of all arts and what it still teaches us today.</p>
+      <div class="card-meta"><span class="card-author">Tarek Benmoussa</span><span class="card-dot"></span><span class="card-min">10 min</span></div>
+    </div>
+    <div class="card">
+      <div class="card-img card-img-empty"></div>
+      <div class="card-accent"></div>
+      <p class="card-cat">Essay</p>
+      <h3 class="card-title">The Arab Body in Contemporary Art: Reclaiming the Image</h3>
+      <p class="card-excerpt">After centuries of being painted by others, Arab artists are finally painting themselves. What does it look like when you reclaim your own image?</p>
+      <div class="card-meta"><span class="card-author">Nour Hadidi</span><span class="card-dot"></span><span class="card-min">9 min</span></div>
+    </div>
+    <div class="card">
+      <div class="card-img card-img-empty"></div>
+      <div class="card-accent"></div>
+      <p class="card-cat">Essay</p>
+      <h3 class="card-title">What Does a Museum Owe the People It Stole From?</h3>
+      <p class="card-excerpt">The Louvre holds thousands of objects from the Arab world. The British Museum holds more. On restitution, memory, and who gets to keep beauty.</p>
+      <div class="card-meta"><span class="card-author">Omar Sefiani</span><span class="card-dot"></span><span class="card-min">12 min</span></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <p class="foot-logo-en">MAQAM</p>
+      <p class="foot-logo-ar">مقام</p>
+      <p class="foot-about">A bilingual magazine for arts and humanities. A space where East meets West, and where ideas find their proper station.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Sections</h4>
+      <ul>
+        <li><a href="literature.html">Literature</a></li>
+        <li><a href="philosophy.html">Philosophy</a></li>
+        <li><a href="history.html">History</a></li>
+        <li><a href="arts.html">Arts</a></li>
+        <li><a href="music.html">Music</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Magazine</h4>
+      <ul>
+        <li><a href="about.html">About Maqam</a></li>
+        <li><a href="write.html">Write With Us</a></li>
+        <li><a href="about.html">The Team</a></li>
+        <li><a href="write.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Follow</h4>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">X / Twitter</a></li>
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Newsletter</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <p>© 2025 Maqam Magazine</p>
+    <div class="foot-bottom-center"><span>◆</span><p>From East to West</p><span>◆</span></div>
+    <p>All Rights Reserved</p>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Music — Maqam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Amiri:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --gold:#c9a96e;--gold-light:#e8d5a3;--gold-dim:#7a6845;--gold-faint:#3a2f1a;
+  --ink:#0a0810;--ink2:#0f0d16;--ink3:#151220;
+  --border:rgba(201,169,110,0.12);--border2:rgba(201,169,110,0.22);
+  --text:#cfc5ae;--text-dim:#7a7060;--text-muted:#3d3830;
+  /* Music accent: deep rose/crimson */
+  --accent:#5a0a2a;--accent-light:#d4608a;--accent-faint:rgba(90,10,42,0.2);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--ink);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:18px;line-height:1.75;overflow-x:hidden;}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.5;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:500;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 52px;background:rgba(10,8,16,0.92);border-bottom:0.5px solid var(--border);backdrop-filter:blur(20px);}
+.nav-logo{font-family:'Cinzel',serif;font-size:16px;font-weight:700;color:var(--gold);letter-spacing:8px;text-decoration:none;}
+.nav-links{display:flex;gap:32px;list-style:none;}
+.nav-links a{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:3px;color:var(--text-dim);text-decoration:none;text-transform:uppercase;transition:color .3s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-links a.active{color:var(--accent-light);}
+.nav-cta{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;color:var(--gold);border:0.5px solid var(--gold-dim);padding:7px 20px;text-decoration:none;text-transform:uppercase;transition:all .3s;}
+.nav-cta:hover{background:var(--gold);color:var(--ink);}
+
+/* HERO — full bleed with vinyl/stage feel */
+.section-hero{
+  position:relative;min-height:85vh;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:100px 52px 64px;overflow:hidden;
+}
+.hero-bg{position:absolute;inset:0;overflow:hidden;}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center;filter:grayscale(70%) brightness(0.3) contrast(1.2);}
+.hero-bg::before{content:'';position:absolute;inset:0;z-index:1;background:rgba(90,10,42,0.3);mix-blend-mode:color;}
+.hero-bg::after{content:'';position:absolute;inset:0;z-index:2;background:linear-gradient(to top,rgba(10,8,16,1) 0%,rgba(10,8,16,0.55) 45%,rgba(10,8,16,0.1) 100%);}
+
+/* Animated sound wave lines */
+.hero-waves{position:absolute;bottom:0;left:0;right:0;z-index:2;height:120px;display:flex;align-items:flex-end;justify-content:center;gap:3px;padding:0 52px;opacity:0.12;}
+.wave-bar{background:var(--accent-light);border-radius:1px 1px 0 0;animation:wavePulse 1.4s ease-in-out infinite;}
+.wave-bar:nth-child(odd){animation-delay:.2s;}
+.wave-bar:nth-child(3n){animation-delay:.5s;}
+.wave-bar:nth-child(4n){animation-delay:.8s;}
+@keyframes wavePulse{0%,100%{transform:scaleY(0.3);}50%{transform:scaleY(1);}}
+
+.hero-content{position:relative;z-index:3;max-width:760px;}
+.hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.hero-eyebrow-line{width:32px;height:0.5px;background:var(--accent-light);}
+.hero-eyebrow span{font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;color:var(--accent-light);text-transform:uppercase;}
+.hero-ar{font-family:'Amiri',serif;font-size:56px;color:var(--accent-light);direction:rtl;line-height:1;margin-bottom:8px;opacity:0.55;}
+.hero-en{font-family:'Cinzel',serif;font-size:52px;font-weight:700;color:var(--gold-light);line-height:1.05;margin-bottom:20px;}
+.hero-desc{font-family:'Crimson Pro',serif;font-style:italic;font-size:19px;color:var(--text-dim);max-width:600px;line-height:1.7;}
+.accent-bar{height:2px;background:linear-gradient(to right,var(--accent),var(--accent-light),transparent);width:100%;}
+
+/* DIVIDER */
+.divider{display:flex;align-items:center;max-width:1200px;margin:0 auto;padding:0 52px;}
+.divider-line{flex:1;height:0.5px;background:var(--border);}
+.divider-badge{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:4px;color:var(--gold-dim);text-transform:uppercase;padding:0 24px;white-space:nowrap;display:flex;align-items:center;gap:10px;}
+.divider-badge::before,.divider-badge::after{content:'◆';font-size:6px;color:var(--gold-faint);}
+
+/* FEATURED */
+.featured-wrap{max-width:1200px;margin:0 auto;padding:72px 52px 80px;display:grid;grid-template-columns:5fr 4fr;gap:0;border-bottom:0.5px solid var(--border);}
+.feat-left{padding-right:60px;border-right:0.5px solid var(--border);}
+.feat-img{width:100%;aspect-ratio:16/9;background:var(--ink3);border:0.5px solid var(--border);margin-bottom:24px;position:relative;overflow:hidden;}
+.feat-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(20%);transition:transform .6s;}
+.feat-img:hover img{transform:scale(1.03);}
+.feat-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(10,8,16,0.6) 0%,transparent 60%);}
+.feat-accent-tag{display:inline-flex;align-items:center;gap:8px;font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--accent-light);text-transform:uppercase;margin-bottom:14px;}
+.feat-accent-tag::before{content:'';width:20px;height:0.5px;background:var(--accent-light);}
+.feat-title{font-family:'Cinzel',serif;font-size:26px;font-weight:600;color:var(--gold-light);line-height:1.25;margin-bottom:16px;}
+.feat-excerpt{font-family:'Crimson Pro',serif;font-size:17px;color:var(--text-dim);line-height:1.8;margin-bottom:24px;}
+.feat-byline{display:flex;align-items:center;gap:12px;margin-bottom:24px;}
+.byline-rule{width:24px;height:0.5px;background:var(--gold-dim);}
+.byline-name{font-family:'Crimson Pro',serif;font-style:italic;font-size:15px;color:var(--text-dim);}
+.read-btn{display:inline-block;font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--accent-light);border:0.5px solid var(--accent-light);padding:10px 24px;text-decoration:none;text-transform:uppercase;transition:all .3s;}
+.read-btn:hover{background:var(--accent-light);color:var(--ink);}
+.feat-right{padding-left:52px;display:flex;flex-direction:column;}
+.sidebar-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:24px;padding-bottom:12px;border-bottom:0.5px solid var(--border);}
+.side-art{padding:20px 0;border-bottom:0.5px solid var(--border);cursor:pointer;}
+.side-art:last-child{border-bottom:none;}
+.side-art:hover .side-title{color:var(--accent-light);}
+.side-tag{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:3px;color:var(--accent-light);text-transform:uppercase;margin-bottom:6px;}
+.side-title{font-family:'Cinzel',serif;font-size:14px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:6px;transition:color .3s;}
+.side-meta{font-family:'Crimson Pro',serif;font-style:italic;font-size:13px;color:var(--text-muted);}
+
+/* THREE SOUNDS */
+.sounds-section{
+  background:var(--ink2);
+  border-top:0.5px solid var(--border);
+  border-bottom:0.5px solid var(--border);
+  padding:72px 52px;
+}
+.sounds-inner{max-width:1200px;margin:0 auto;}
+.sounds-intro{font-family:'Crimson Pro',serif;font-style:italic;font-size:19px;color:var(--text-dim);max-width:680px;margin:0 auto 56px;text-align:center;line-height:1.85;}
+.sounds-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.sound-card{position:relative;overflow:hidden;border:0.5px solid var(--border);transition:border-color .4s;cursor:pointer;}
+.sound-card:hover{border-color:var(--accent-light);}
+.sound-img{aspect-ratio:3/4;overflow:hidden;position:relative;}
+.sound-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(80%) brightness(0.45) contrast(1.15);transition:filter .5s,transform .6s;}
+.sound-card:hover .sound-img img{filter:grayscale(40%) brightness(0.55);transform:scale(1.04);}
+.sound-img::before{content:'';position:absolute;inset:0;z-index:1;background:rgba(90,10,42,0.25);mix-blend-mode:color;}
+.sound-img::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60%;z-index:2;background:linear-gradient(to top,rgba(10,8,16,0.98),transparent);}
+.sound-body{padding:28px 28px 32px;background:var(--ink3);}
+.sound-origin{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--accent-light);text-transform:uppercase;margin-bottom:8px;display:block;}
+.sound-ar{font-family:'Amiri',serif;font-size:28px;color:var(--gold-dim);direction:rtl;display:block;margin-bottom:6px;}
+.sound-title{font-family:'Cinzel',serif;font-size:16px;font-weight:600;color:var(--gold-light);display:block;margin-bottom:12px;}
+.sound-desc{font-family:'Crimson Pro',serif;font-size:15px;color:var(--text-muted);line-height:1.7;margin-bottom:14px;}
+.sound-quote{font-family:'Crimson Pro',serif;font-style:italic;font-size:14px;color:var(--text-dim);border-left:2px solid var(--accent-light);padding-left:12px;line-height:1.6;}
+
+/* FAIROUZ SPOTLIGHT */
+.fairouz-section{
+  border-top:0.5px solid var(--border);
+  border-bottom:0.5px solid var(--border);
+  padding:72px 52px;
+  max-width:100%;
+  position:relative;overflow:hidden;
+}
+.fairouz-inner{
+  max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 320px;
+  gap:80px;align-items:center;
+}
+.fairouz-text{}
+.fai-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;color:var(--accent-light);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:12px;}
+.fai-label::after{content:'';flex:1;height:0.5px;background:var(--border);}
+.fai-title{font-family:'Cinzel',serif;font-size:30px;font-weight:600;color:var(--gold-light);line-height:1.2;margin-bottom:20px;}
+.fai-text{font-family:'Crimson Pro',serif;font-size:18px;color:var(--text-dim);line-height:1.85;margin-bottom:20px;}
+.fai-quote{border-left:2px solid var(--accent-light);padding:20px 28px;margin:28px 0;background:rgba(90,10,42,0.08);}
+.fai-quote p{font-family:'Crimson Pro',serif;font-style:italic;font-size:21px;color:var(--text);line-height:1.6;margin-bottom:8px;}
+.fai-quote span{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:3px;color:var(--accent-light);text-transform:uppercase;}
+.fairouz-img{position:relative;border:0.5px solid var(--border2);overflow:hidden;}
+.fairouz-img img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top;filter:grayscale(100%) contrast(1.1) brightness(0.65);display:block;}
+.fairouz-img::before{content:'';position:absolute;inset:0;z-index:1;background:rgba(90,10,42,0.22);mix-blend-mode:color;}
+.fairouz-img::after{content:'';position:absolute;bottom:0;left:0;right:0;height:40%;z-index:2;background:linear-gradient(to top,rgba(10,8,16,0.9),transparent);}
+.fairouz-caption{position:absolute;bottom:16px;left:16px;z-index:3;}
+.fairouz-caption .fc-name{font-family:'Cinzel',serif;font-size:13px;font-weight:600;color:var(--gold-light);display:block;margin-bottom:2px;}
+.fairouz-caption .fc-ar{font-family:'Amiri',serif;font-size:16px;color:var(--accent-light);direction:rtl;display:block;}
+
+/* QUOTE BAND */
+.quote-band{
+  background:var(--ink2);border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);
+  padding:64px 52px;text-align:center;position:relative;overflow:hidden;
+}
+.quote-band::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:200px;background:radial-gradient(ellipse,rgba(212,96,138,0.05) 0%,transparent 70%);}
+.qb-text{font-family:'Crimson Pro',serif;font-style:italic;font-size:26px;color:var(--text);max-width:700px;margin:0 auto 14px;line-height:1.5;position:relative;z-index:1;}
+.qb-ar{font-family:'Amiri',serif;font-size:24px;color:var(--accent-light);direction:rtl;margin-bottom:18px;position:relative;z-index:1;}
+.qb-source{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--text-muted);text-transform:uppercase;position:relative;z-index:1;}
+
+/* ARTICLE GRID */
+.grid-section{max-width:1200px;margin:0 auto;padding:72px 52px 80px;}
+.grid-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:48px;border-bottom:0.5px solid var(--border);padding-bottom:16px;}
+.grid-head h2{font-family:'Cinzel',serif;font-size:10px;letter-spacing:5px;font-weight:400;color:var(--gold);text-transform:uppercase;}
+.grid-head a{font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;color:var(--text-muted);text-decoration:none;text-transform:uppercase;transition:color .3s;}
+.grid-head a:hover{color:var(--accent-light);}
+.articles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:48px 40px;}
+.card{display:flex;flex-direction:column;border-top:0.5px solid var(--border);padding-top:28px;transition:border-color .3s;cursor:pointer;}
+.card:hover{border-color:var(--accent-light);}
+.card:hover .card-title{color:var(--gold-light);}
+.card-img{aspect-ratio:3/2;background:var(--ink3);border:0.5px solid var(--border);margin-bottom:20px;position:relative;overflow:hidden;}
+.card-img img{width:100%;height:100%;object-fit:cover;filter:grayscale(40%);transition:transform .5s,filter .4s;}
+.card:hover .card-img img{transform:scale(1.04);filter:grayscale(10%);}
+.card-img-empty::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 24px,rgba(212,96,138,0.03) 24px,rgba(212,96,138,0.03) 25px);}
+.card-accent{width:24px;height:2px;background:var(--accent-light);margin-bottom:10px;}
+.card-cat{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:3px;color:var(--accent-light);text-transform:uppercase;margin-bottom:10px;}
+.card-title{font-family:'Cinzel',serif;font-size:15px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:12px;transition:color .3s;}
+.card-excerpt{font-family:'Crimson Pro',serif;font-size:15px;color:var(--text-dim);line-height:1.75;margin-bottom:14px;flex:1;}
+.card-meta{display:flex;align-items:center;gap:10px;margin-top:auto;}
+.card-dot{width:2px;height:2px;background:var(--text-muted);border-radius:50%;}
+.card-author{font-family:'Crimson Pro',serif;font-style:italic;font-size:13px;color:var(--text-muted);}
+.card-min{font-family:'Cinzel',serif;font-size:7px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;}
+
+footer{background:var(--ink);border-top:0.5px solid var(--border);padding:64px 52px 36px;position:relative;z-index:1;}
+.footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:60px;margin-bottom:56px;}
+.foot-logo-en{font-family:'Cinzel',serif;font-size:20px;font-weight:700;color:var(--gold);letter-spacing:8px;margin-bottom:4px;}
+.foot-logo-ar{font-family:'Amiri',serif;font-size:22px;color:var(--gold-dim);direction:rtl;margin-bottom:16px;}
+.foot-about{font-family:'Crimson Pro',serif;font-size:15px;color:var(--text-muted);line-height:1.75;max-width:260px;}
+.foot-col h4{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--gold-dim);text-transform:uppercase;margin-bottom:20px;padding-bottom:10px;border-bottom:0.5px solid var(--border);}
+.foot-col ul{list-style:none;}
+.foot-col li{margin-bottom:10px;}
+.foot-col a{font-family:'Crimson Pro',serif;font-size:15px;color:var(--text-muted);text-decoration:none;transition:color .3s;}
+.foot-col a:hover{color:var(--gold);}
+.foot-bottom{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;border-top:0.5px solid var(--border);padding-top:24px;}
+.foot-bottom p{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;}
+.foot-bottom-center{display:flex;align-items:center;gap:12px;}
+.foot-bottom-center span{font-size:8px;color:var(--gold-faint);}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">MAQAM</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="literature.html">Literature</a></li>
+    <li><a href="philosophy.html">Philosophy</a></li>
+    <li><a href="history.html">History</a></li>
+    <li><a href="arts.html">Arts</a></li>
+    <li><a href="music.html" class="active">Music</a></li>
+  </ul>
+  <a href="write.html" class="nav-cta">Write With Us</a>
+</nav>
+
+<!-- HERO -->
+<div class="section-hero">
+  <div class="hero-bg">
+    <img src="arab-music.jpg" alt="Music"/>
+  </div>
+  <div class="hero-waves">
+    <div class="wave-bar" style="width:3px;height:40px;"></div>
+    <div class="wave-bar" style="width:3px;height:70px;"></div>
+    <div class="wave-bar" style="width:3px;height:55px;"></div>
+    <div class="wave-bar" style="width:3px;height:90px;"></div>
+    <div class="wave-bar" style="width:3px;height:45px;"></div>
+    <div class="wave-bar" style="width:3px;height:80px;"></div>
+    <div class="wave-bar" style="width:3px;height:60px;"></div>
+    <div class="wave-bar" style="width:3px;height:100px;"></div>
+    <div class="wave-bar" style="width:3px;height:50px;"></div>
+    <div class="wave-bar" style="width:3px;height:75px;"></div>
+    <div class="wave-bar" style="width:3px;height:85px;"></div>
+    <div class="wave-bar" style="width:3px;height:40px;"></div>
+    <div class="wave-bar" style="width:3px;height:65px;"></div>
+    <div class="wave-bar" style="width:3px;height:95px;"></div>
+    <div class="wave-bar" style="width:3px;height:55px;"></div>
+    <div class="wave-bar" style="width:3px;height:70px;"></div>
+    <div class="wave-bar" style="width:3px;height:45px;"></div>
+    <div class="wave-bar" style="width:3px;height:80px;"></div>
+    <div class="wave-bar" style="width:3px;height:60px;"></div>
+    <div class="wave-bar" style="width:3px;height:90px;"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span>Maqam / Section</span>
+    </div>
+    <p class="hero-ar">موسيقى</p>
+    <h1 class="hero-en">Music</h1>
+    <p class="hero-desc">The oldest language. The one that needs no translation. From the Arabic maqam to the Western symphony, from Fairouz to Miles Davis — music is what happens when emotion becomes too large for words.</p>
+  </div>
+</div>
+<div class="accent-bar"></div>
+
+<!-- FEATURED -->
+<div class="divider" style="margin-top:0;"><div class="divider-line"></div><div class="divider-badge">Featured Essay</div><div class="divider-line"></div></div>
+
+<div class="featured-wrap">
+  <div class="feat-left">
+    <div class="feat-img">
+      <img src="arab-music.jpg" alt="Arab Music"/>
+    </div>
+    <p class="feat-accent-tag">Music · Essay · Issue I</p>
+    <h2 class="feat-title">Maqam as Philosophy: On the Ethics of Sound in Arab Music</h2>
+    <p class="feat-excerpt">The Arabic musical mode is not just a scale. It is a temperament, a stance toward the world, a way of feeling before speaking. Each maqam carries an emotional universe within it. To play in Maqam Rast is to speak of longing. To play in Maqam Hijaz is to speak of the desert and the sacred. This essay asks: what does Arab music know about the human condition that philosophy has not yet said?</p>
+    <div class="feat-byline">
+      <div class="byline-rule"></div>
+      <span class="byline-name">Nour Hadidi</span>
+    </div>
+    <a href="#" class="read-btn">Read Essay →</a>
+  </div>
+  <div class="feat-right">
+    <p class="sidebar-label">More in Music</p>
+    <div class="side-art">
+      <p class="side-tag">Essay</p>
+      <h3 class="side-title">Fairouz at 90: The Voice That Held a Nation Together</h3>
+      <p class="side-meta">Sara Mourad · 12 min</p>
+    </div>
+    <div class="side-art">
+      <p class="side-tag">Essay</p>
+      <h3 class="side-title">Jazz and the Arabic Scale: An Unlikely Conversation</h3>
+      <p class="side-meta">Karim Fassi · 10 min</p>
+    </div>
+    <div class="side-art">
+      <p class="side-tag">Criticism</p>
+      <h3 class="side-title">Umm Kulthum and the Three-Hour Song</h3>
+      <p class="side-meta">Layla Benali · 14 min</p>
+    </div>
+    <div class="side-art">
+      <p class="side-tag">Essay</p>
+      <h3 class="side-title">What Pop Music Stole From the Arab World</h3>
+      <p class="side-meta">Omar Sefiani · 9 min</p>
+    </div>
+  </div>
+</div>
+
+<!-- THREE SOUNDS -->
+<div class="divider"><div class="divider-line"></div><div class="divider-badge">Three Musical Worlds</div><div class="divider-line"></div></div>
+
+<div class="sounds-section">
+  <div class="sounds-inner">
+    <p class="sounds-intro">Every culture hears the world differently. Three musical traditions, three ways of organizing sound into meaning — and all of them, underneath, saying the same thing.</p>
+    <div class="sounds-grid">
+
+      <div class="sound-card">
+        <div class="sound-img"><img src="arab-music.jpg" alt="Arab Music"/></div>
+        <div class="sound-body">
+          <span class="sound-origin">Arab World</span>
+          <span class="sound-ar">الموسيقى العربية</span>
+          <span class="sound-title">The Arabic Maqam</span>
+          <p class="sound-desc">Built on quarter-tones the Western scale cannot hear, the Arabic maqam is a modal system that carries entire emotional landscapes within its intervals. Each mode is a world. Each performance is a conversation between the musician and the invisible.</p>
+          <p class="sound-quote">"The maqam does not describe an emotion. It creates the condition for it." — Nour Hadidi</p>
+        </div>
+      </div>
+
+      <div class="sound-card">
+        <div class="sound-img"><img src="french-music.jpg" alt="French Music"/></div>
+        <div class="sound-body">
+          <span class="sound-origin">Europe · France</span>
+          <span class="sound-ar">الموسيقى الكلاسيكية</span>
+          <span class="sound-title">The Classical Tradition</span>
+          <p class="sound-desc">From Bach's mathematical counterpoint to Debussy's impressionist shimmer, European classical music built an architecture of sound that sought to represent the universe itself. It is music as grand ambition — and as profound beauty.</p>
+          <p class="sound-quote">"Music is the arithmetic of sounds as optics is the geometry of light." — Claude Debussy</p>
+        </div>
+      </div>
+
+      <div class="sound-card">
+        <div class="sound-img"><img src="english-music.jpg" alt="English Music"/></div>
+        <div class="sound-body">
+          <span class="sound-origin">America · England</span>
+          <span class="sound-ar">موسيقى الجاز والروك</span>
+          <span class="sound-title">Jazz, Blues and Rock</span>
+          <p class="sound-desc">Born from the pain and resilience of Black Americans, jazz and blues gave the 20th century its emotional vocabulary. Rock took that vocabulary and made it electric. These are musics of survival, rebellion, and the unbearable need to be heard.</p>
+          <p class="sound-quote">"The blues is an art of ambiguity." — Ralph Ellison</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- FAIROUZ SPOTLIGHT -->
+<div class="divider"><div class="divider-line"></div><div class="divider-badge">Voice in Focus</div><div class="divider-line"></div></div>
+
+<div class="fairouz-section">
+  <div class="fairouz-inner">
+    <div class="fairouz-text">
+      <p class="fai-label">Voice in Focus</p>
+      <h2 class="fai-title">Fairouz: The Voice That Refused to Choose Sides</h2>
+      <p class="fai-text">She has been singing since 1950. Through the Lebanese Civil War, through assassinations and bombings, through the slow dismantling of everything her songs once promised — Fairouz kept singing. She is the only Lebanese institution that has never been destroyed.</p>
+      <p class="fai-text">To understand Fairouz is to understand something essential about the Arab relationship to beauty: that it is not an escape from suffering, but a way of surviving it with dignity. Her voice does not deny the pain. It holds it, transforms it, and gives it back to the listener as something bearable.</p>
+      <div class="fai-quote">
+        <p>"She is not just a singer. She is the proof that we were once capable of something beautiful."</p>
+        <span>Maqam · Music Section</span>
+      </div>
+      <p class="fai-text">She sang when Beirut burned. She sang when it was rebuilt. She will, we suspect, still be singing when the rest of us have run out of words.</p>
+    </div>
+    <div class="fairouz-img">
+      <img src="fairuz.jpg.webp" alt="Fairouz"/>
+      <div class="fairouz-caption">
+        <span class="fc-name">Fairouz</span>
+        <span class="fc-ar">فيروز</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- QUOTE BAND -->
+<div class="quote-band">
+  <p class="qb-text">"Music gives a soul to the universe, wings to the mind, flight to the imagination, and life to everything."</p>
+  <p class="qb-ar">الموسيقى هي لغة الروح — الوحيدة التي لا تحتاج إلى ترجمة.</p>
+  <p class="qb-source">Plato · adapted</p>
+</div>
+
+<!-- ARTICLE GRID -->
+<div class="divider"><div class="divider-line"></div><div class="divider-badge">All Essays</div><div class="divider-line"></div></div>
+
+<div class="grid-section">
+  <div class="grid-head">
+    <h2>Music · All Writing</h2>
+    <a href="write.html">Submit Your Essay →</a>
+  </div>
+  <div class="articles-grid">
+
+    <div class="card">
+      <div class="card-img"><img src="arab-music.jpg" alt="Arab Music"/></div>
+      <div class="card-accent"></div>
+      <p class="card-cat">Essay</p>
+      <h3 class="card-title">Maqam as Philosophy: On the Ethics of Sound</h3>
+      <p class="card-excerpt">The Arabic musical mode is not just a scale. It is a temperament, a stance toward the world, a way of feeling before speaking.</p>
+      <div class="card-meta"><span class="card-author">Nour Hadidi</span><span class="card-dot"></span><span class="card-min">14 min</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="fairuz.jpg.webp" alt="Fairouz"/></div>
+      <div class="card-accent"></div>
+      <p class="card-cat">Essay</p>
+      <h3 class="card-title">Fairouz at 90: The Voice That Held a Nation Together</h3>
+      <p class="card-excerpt">She sang when Beirut burned. She sang when it was rebuilt. What does it mean to be the conscience of an entire people?</p>
+      <div class="card-meta"><span class="card-author">Sara Mourad</span><span class="card-dot"></span><span class="card-min">12 min</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="english-music.jpg" alt="Jazz"/></div>
+      <div class="card-accent"></div>
+      <p class="card-cat">Essay</p>
+      <h3 class="card-title">Jazz and the Arabic Scale: An Unlikely Conversation</h3>
+      <p class="card-excerpt">Miles Davis said he was influenced by Arab music. John Coltrane studied the maqam. The conversation between jazz and Arabic music was never a coincidence.</p>
+      <div class="card-meta"><span class="card-author">Karim Fassi</span><span class="card-dot"></span><span class="card-min">10 min</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-img"><img src="french-music.jpg" alt="Classical"/></div>
+      <div class="card-accent"></div>
+      <p class="card-cat">Criticism</p>
+      <h3 class="card-title">Umm Kulthum and the Three-Hour Song</h3>
+      <p class="card-excerpt">She would sing the same verse thirty times, each time differently. On why Arab music treats repetition not as failure but as deepening.</p>
+      <div class="card-meta"><span class="card-author">Layla Benali</span><span class="card-dot"></span><span class="card-min">14 min</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-img card-img-empty"></div>
+      <div class="card-accent"></div>
+      <p class="card-cat">Essay</p>
+      <h3 class="card-title">What Pop Music Stole From the Arab World</h3>
+      <p class="card-excerpt">From Shakira's zaghrouta to the quarter-tone scales in Western pop production — the Arab musical tradition has been borrowed from for decades without credit.</p>
+      <div class="card-meta"><span class="card-author">Omar Sefiani</span><span class="card-dot"></span><span class="card-min">9 min</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-img card-img-empty"></div>
+      <div class="card-accent"></div>
+      <p class="card-cat">Essay</p>
+      <h3 class="card-title">Silence as Music: On What Is Not Played</h3>
+      <p class="card-excerpt">John Cage said silence is music. Arab musical tradition says the space between notes is where the emotion lives. Both are right. This essay listens to the pause.</p>
+      <div class="card-meta"><span class="card-author">Adib Khalifa Masri</span><span class="card-dot"></span><span class="card-min">8 min</span></div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <p class="foot-logo-en">MAQAM</p>
+      <p class="foot-logo-ar">مقام</p>
+      <p class="foot-about">A bilingual magazine for arts and humanities. A space where East meets West, and where ideas find their proper station.</p>
+    </div>
+    <div class="foot-col">
+      <h4>Sections</h4>
+      <ul>
+        <li><a href="literature.html">Literature</a></li>
+        <li><a href="philosophy.html">Philosophy</a></li>
+        <li><a href="history.html">History</a></li>
+        <li><a href="arts.html">Arts</a></li>
+        <li><a href="music.html">Music</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Magazine</h4>
+      <ul>
+        <li><a href="about.html">About Maqam</a></li>
+        <li><a href="write.html">Write With Us</a></li>
+        <li><a href="about.html">The Team</a></li>
+        <li><a href="write.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h4>Follow</h4>
+      <ul>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">X / Twitter</a></li>
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Newsletter</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <p>© 2025 Maqam Magazine</p>
+    <div class="foot-bottom-center"><span>◆</span><p>From East to West</p><span>◆</span></div>
+    <p>All Rights Reserved</p>
+  </div>
+</footer>
+
+</body>
+</html>
